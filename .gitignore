@@ -1,6 +1,8 @@
 # Data folders
-data/
-dataset/
+data/clean_testset_wav/
+data/clean_trainset_28spk_wav/
+data/noisy_testset_wav/
+data/noisy_trainset_28spk_wav/
 .env
 
 # __pycache__
