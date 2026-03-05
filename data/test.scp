@@ -1,824 +1,824 @@
-p232_001
-p232_002
-p232_003
-p232_005
-p232_006
-p232_007
-p232_009
-p232_010
-p232_011
-p232_012
-p232_013
-p232_014
-p232_015
-p232_016
-p232_017
-p232_019
-p232_020
-p232_021
-p232_022
-p232_023
-p232_024
-p232_025
-p232_027
-p232_028
-p232_029
-p232_030
-p232_031
-p232_032
-p232_033
-p232_034
-p232_035
-p232_036
-p232_037
-p232_038
-p232_039
-p232_040
-p232_041
-p232_042
-p232_043
-p232_044
-p232_045
-p232_046
-p232_047
-p232_048
-p232_049
-p232_050
-p232_051
-p232_052
-p232_053
-p232_054
-p232_055
-p232_056
-p232_057
-p232_058
-p232_059
-p232_060
-p232_061
-p232_062
-p232_063
-p232_064
-p232_065
-p232_066
-p232_067
-p232_068
-p232_069
-p232_070
-p232_071
-p232_072
-p232_073
-p232_074
-p232_075
-p232_076
-p232_077
-p232_078
-p232_079
-p232_080
-p232_081
-p232_082
-p232_083
-p232_084
-p232_085
-p232_086
-p232_087
-p232_088
-p232_089
-p232_090
-p232_091
-p232_092
-p232_093
-p232_094
-p232_095
-p232_096
-p232_097
-p232_098
-p232_099
-p232_100
-p232_101
-p232_102
-p232_103
-p232_104
-p232_105
-p232_106
-p232_107
-p232_108
-p232_109
-p232_110
-p232_112
-p232_113
-p232_114
-p232_115
-p232_116
-p232_117
-p232_118
-p232_119
-p232_120
-p232_121
-p232_123
-p232_124
-p232_125
-p232_126
-p232_127
-p232_128
-p232_129
-p232_130
-p232_131
-p232_132
-p232_133
-p232_134
-p232_135
-p232_136
-p232_137
-p232_138
-p232_139
-p232_140
-p232_141
-p232_142
-p232_143
-p232_144
-p232_145
-p232_146
-p232_147
-p232_148
-p232_150
-p232_151
-p232_152
-p232_153
-p232_154
-p232_155
-p232_156
-p232_158
-p232_159
-p232_160
-p232_161
-p232_162
-p232_163
-p232_164
-p232_165
-p232_167
-p232_169
-p232_170
-p232_171
-p232_172
-p232_173
-p232_174
-p232_175
-p232_176
-p232_177
-p232_178
-p232_179
-p232_180
-p232_181
-p232_182
-p232_183
-p232_184
-p232_185
-p232_186
-p232_187
-p232_188
-p232_189
-p232_190
-p232_191
-p232_193
-p232_194
-p232_195
-p232_196
-p232_197
-p232_198
-p232_199
-p232_200
-p232_201
-p232_202
-p232_203
-p232_204
-p232_205
-p232_206
-p232_207
-p232_208
-p232_209
-p232_210
-p232_211
-p232_213
-p232_214
-p232_215
-p232_216
-p232_217
-p232_218
-p232_219
-p232_220
-p232_221
-p232_223
-p232_224
-p232_225
-p232_226
-p232_227
-p232_228
-p232_229
-p232_230
-p232_231
-p232_232
-p232_234
-p232_235
-p232_236
-p232_237
-p232_238
-p232_239
-p232_240
-p232_241
-p232_242
-p232_243
-p232_244
-p232_245
-p232_246
-p232_247
-p232_248
-p232_249
-p232_250
-p232_251
-p232_252
-p232_253
-p232_254
-p232_255
-p232_256
-p232_257
-p232_258
-p232_259
-p232_260
-p232_261
-p232_263
-p232_264
-p232_265
-p232_266
-p232_267
-p232_268
-p232_269
-p232_270
-p232_271
-p232_272
-p232_273
-p232_274
-p232_275
-p232_276
-p232_277
-p232_278
-p232_279
-p232_280
-p232_281
-p232_282
-p232_283
-p232_284
-p232_285
-p232_286
-p232_287
-p232_288
-p232_289
-p232_290
-p232_291
-p232_292
-p232_293
-p232_294
-p232_295
-p232_296
-p232_297
-p232_298
-p232_299
-p232_300
-p232_301
-p232_302
-p232_303
-p232_305
-p232_306
-p232_307
-p232_308
-p232_309
-p232_310
-p232_311
-p232_312
-p232_313
-p232_314
-p232_315
-p232_316
-p232_317
-p232_318
-p232_319
-p232_320
-p232_321
-p232_322
-p232_323
-p232_324
-p232_325
-p232_326
-p232_327
-p232_328
-p232_329
-p232_330
-p232_331
-p232_332
-p232_333
-p232_334
-p232_335
-p232_336
-p232_337
-p232_338
-p232_339
-p232_340
-p232_341
-p232_342
-p232_343
-p232_344
-p232_346
-p232_347
-p232_348
-p232_349
-p232_350
-p232_351
-p232_352
-p232_353
-p232_354
-p232_355
-p232_356
-p232_357
-p232_358
-p232_359
-p232_360
-p232_361
-p232_362
-p232_363
-p232_364
-p232_365
-p232_366
-p232_367
-p232_368
-p232_369
-p232_370
-p232_371
-p232_372
-p232_373
-p232_374
-p232_375
-p232_377
-p232_378
-p232_379
-p232_380
-p232_381
-p232_382
-p232_383
-p232_384
-p232_385
-p232_386
-p232_387
-p232_388
-p232_389
-p232_390
-p232_391
-p232_392
-p232_393
-p232_394
-p232_396
-p232_397
-p232_398
-p232_399
-p232_400
-p232_402
-p232_403
-p232_404
-p232_405
-p232_407
-p232_409
-p232_410
-p232_411
-p232_412
-p232_413
-p232_414
-p232_415
-p257_001
-p257_002
-p257_003
-p257_004
-p257_006
-p257_007
-p257_008
-p257_009
-p257_010
-p257_011
-p257_012
-p257_013
-p257_014
-p257_015
-p257_016
-p257_017
-p257_018
-p257_019
-p257_020
-p257_022
-p257_023
-p257_024
-p257_025
-p257_026
-p257_027
-p257_028
-p257_029
-p257_030
-p257_031
-p257_032
-p257_033
-p257_034
-p257_035
-p257_036
-p257_037
-p257_038
-p257_039
-p257_040
-p257_041
-p257_042
-p257_043
-p257_044
-p257_045
-p257_046
-p257_047
-p257_048
-p257_049
-p257_050
-p257_051
-p257_052
-p257_053
-p257_054
-p257_055
-p257_056
-p257_057
-p257_058
-p257_059
-p257_060
-p257_061
-p257_062
-p257_063
-p257_064
-p257_065
-p257_066
-p257_067
-p257_068
-p257_069
-p257_070
-p257_071
-p257_072
-p257_073
-p257_074
-p257_075
-p257_076
-p257_077
-p257_078
-p257_079
-p257_080
-p257_081
-p257_082
-p257_083
-p257_084
-p257_085
-p257_086
-p257_087
-p257_088
-p257_089
-p257_090
-p257_091
-p257_092
-p257_093
-p257_094
-p257_095
-p257_096
-p257_097
-p257_098
-p257_099
-p257_100
-p257_101
-p257_102
-p257_103
-p257_104
-p257_105
-p257_106
-p257_107
-p257_108
-p257_109
-p257_110
-p257_111
-p257_112
-p257_113
-p257_114
-p257_115
-p257_116
-p257_117
-p257_118
-p257_119
-p257_120
-p257_121
-p257_122
-p257_123
-p257_124
-p257_125
-p257_126
-p257_127
-p257_128
-p257_129
-p257_130
-p257_131
-p257_132
-p257_133
-p257_135
-p257_136
-p257_137
-p257_138
-p257_139
-p257_140
-p257_141
-p257_142
-p257_143
-p257_144
-p257_145
-p257_146
-p257_147
-p257_148
-p257_149
-p257_150
-p257_151
-p257_152
-p257_153
-p257_154
-p257_155
-p257_156
-p257_157
-p257_158
-p257_159
-p257_160
-p257_161
-p257_162
-p257_163
-p257_164
-p257_165
-p257_166
-p257_167
-p257_168
-p257_169
-p257_170
-p257_171
-p257_172
-p257_173
-p257_174
-p257_175
-p257_176
-p257_177
-p257_178
-p257_179
-p257_180
-p257_181
-p257_182
-p257_183
-p257_184
-p257_185
-p257_186
-p257_187
-p257_188
-p257_189
-p257_190
-p257_191
-p257_192
-p257_193
-p257_194
-p257_195
-p257_196
-p257_197
-p257_198
-p257_199
-p257_200
-p257_201
-p257_202
-p257_203
-p257_204
-p257_205
-p257_206
-p257_207
-p257_208
-p257_209
-p257_210
-p257_211
-p257_212
-p257_213
-p257_214
-p257_215
-p257_216
-p257_217
-p257_218
-p257_219
-p257_220
-p257_221
-p257_222
-p257_223
-p257_224
-p257_225
-p257_226
-p257_227
-p257_228
-p257_229
-p257_230
-p257_231
-p257_232
-p257_233
-p257_234
-p257_235
-p257_236
-p257_237
-p257_238
-p257_239
-p257_240
-p257_241
-p257_242
-p257_243
-p257_244
-p257_245
-p257_246
-p257_247
-p257_248
-p257_249
-p257_250
-p257_251
-p257_252
-p257_253
-p257_254
-p257_255
-p257_256
-p257_257
-p257_258
-p257_259
-p257_260
-p257_261
-p257_262
-p257_263
-p257_264
-p257_265
-p257_266
-p257_267
-p257_268
-p257_269
-p257_270
-p257_271
-p257_272
-p257_273
-p257_274
-p257_275
-p257_276
-p257_277
-p257_278
-p257_279
-p257_280
-p257_281
-p257_282
-p257_283
-p257_284
-p257_285
-p257_286
-p257_287
-p257_288
-p257_289
-p257_290
-p257_291
-p257_292
-p257_293
-p257_294
-p257_295
-p257_296
-p257_297
-p257_298
-p257_299
-p257_300
-p257_301
-p257_302
-p257_303
-p257_304
-p257_305
-p257_306
-p257_307
-p257_308
-p257_309
-p257_310
-p257_311
-p257_312
-p257_313
-p257_314
-p257_315
-p257_316
-p257_317
-p257_318
-p257_319
-p257_320
-p257_321
-p257_322
-p257_323
-p257_324
-p257_325
-p257_326
-p257_327
-p257_328
-p257_329
-p257_330
-p257_331
-p257_332
-p257_333
-p257_334
-p257_335
-p257_336
-p257_337
-p257_338
-p257_339
-p257_340
-p257_341
-p257_342
-p257_343
-p257_344
-p257_345
-p257_346
-p257_347
-p257_348
-p257_349
-p257_350
-p257_351
-p257_352
-p257_353
-p257_354
-p257_355
-p257_356
-p257_357
-p257_358
-p257_359
-p257_360
-p257_361
-p257_362
-p257_363
-p257_364
-p257_365
-p257_366
-p257_367
-p257_368
-p257_369
-p257_370
-p257_371
-p257_372
-p257_373
-p257_374
-p257_375
-p257_376
-p257_377
-p257_378
-p257_379
-p257_380
-p257_381
-p257_382
-p257_383
-p257_384
-p257_385
-p257_386
-p257_387
-p257_388
-p257_389
-p257_390
-p257_391
-p257_392
-p257_393
-p257_394
-p257_395
-p257_396
-p257_397
-p257_398
-p257_399
-p257_400
-p257_401
-p257_402
-p257_403
-p257_404
-p257_405
-p257_406
-p257_407
-p257_408
-p257_409
-p257_410
-p257_411
-p257_412
-p257_413
-p257_414
-p257_415
-p257_416
-p257_417
-p257_418
-p257_419
-p257_420
-p257_421
-p257_422
-p257_423
-p257_424
-p257_425
-p257_426
-p257_427
-p257_428
-p257_429
-p257_430
-p257_431
-p257_432
-p257_433
-p257_434
+data/noisy_testset_wav/p232_001.wav data/clean_testset_wav/p232_001.wav
+data/noisy_testset_wav/p232_002.wav data/clean_testset_wav/p232_002.wav
+data/noisy_testset_wav/p232_003.wav data/clean_testset_wav/p232_003.wav
+data/noisy_testset_wav/p232_005.wav data/clean_testset_wav/p232_005.wav
+data/noisy_testset_wav/p232_006.wav data/clean_testset_wav/p232_006.wav
+data/noisy_testset_wav/p232_007.wav data/clean_testset_wav/p232_007.wav
+data/noisy_testset_wav/p232_009.wav data/clean_testset_wav/p232_009.wav
+data/noisy_testset_wav/p232_010.wav data/clean_testset_wav/p232_010.wav
+data/noisy_testset_wav/p232_011.wav data/clean_testset_wav/p232_011.wav
+data/noisy_testset_wav/p232_012.wav data/clean_testset_wav/p232_012.wav
+data/noisy_testset_wav/p232_013.wav data/clean_testset_wav/p232_013.wav
+data/noisy_testset_wav/p232_014.wav data/clean_testset_wav/p232_014.wav
+data/noisy_testset_wav/p232_015.wav data/clean_testset_wav/p232_015.wav
+data/noisy_testset_wav/p232_016.wav data/clean_testset_wav/p232_016.wav
+data/noisy_testset_wav/p232_017.wav data/clean_testset_wav/p232_017.wav
+data/noisy_testset_wav/p232_019.wav data/clean_testset_wav/p232_019.wav
+data/noisy_testset_wav/p232_020.wav data/clean_testset_wav/p232_020.wav
+data/noisy_testset_wav/p232_021.wav data/clean_testset_wav/p232_021.wav
+data/noisy_testset_wav/p232_022.wav data/clean_testset_wav/p232_022.wav
+data/noisy_testset_wav/p232_023.wav data/clean_testset_wav/p232_023.wav
+data/noisy_testset_wav/p232_024.wav data/clean_testset_wav/p232_024.wav
+data/noisy_testset_wav/p232_025.wav data/clean_testset_wav/p232_025.wav
+data/noisy_testset_wav/p232_027.wav data/clean_testset_wav/p232_027.wav
+data/noisy_testset_wav/p232_028.wav data/clean_testset_wav/p232_028.wav
+data/noisy_testset_wav/p232_029.wav data/clean_testset_wav/p232_029.wav
+data/noisy_testset_wav/p232_030.wav data/clean_testset_wav/p232_030.wav
+data/noisy_testset_wav/p232_031.wav data/clean_testset_wav/p232_031.wav
+data/noisy_testset_wav/p232_032.wav data/clean_testset_wav/p232_032.wav
+data/noisy_testset_wav/p232_033.wav data/clean_testset_wav/p232_033.wav
+data/noisy_testset_wav/p232_034.wav data/clean_testset_wav/p232_034.wav
+data/noisy_testset_wav/p232_035.wav data/clean_testset_wav/p232_035.wav
+data/noisy_testset_wav/p232_036.wav data/clean_testset_wav/p232_036.wav
+data/noisy_testset_wav/p232_037.wav data/clean_testset_wav/p232_037.wav
+data/noisy_testset_wav/p232_038.wav data/clean_testset_wav/p232_038.wav
+data/noisy_testset_wav/p232_039.wav data/clean_testset_wav/p232_039.wav
+data/noisy_testset_wav/p232_040.wav data/clean_testset_wav/p232_040.wav
+data/noisy_testset_wav/p232_041.wav data/clean_testset_wav/p232_041.wav
+data/noisy_testset_wav/p232_042.wav data/clean_testset_wav/p232_042.wav
+data/noisy_testset_wav/p232_043.wav data/clean_testset_wav/p232_043.wav
+data/noisy_testset_wav/p232_044.wav data/clean_testset_wav/p232_044.wav
+data/noisy_testset_wav/p232_045.wav data/clean_testset_wav/p232_045.wav
+data/noisy_testset_wav/p232_046.wav data/clean_testset_wav/p232_046.wav
+data/noisy_testset_wav/p232_047.wav data/clean_testset_wav/p232_047.wav
+data/noisy_testset_wav/p232_048.wav data/clean_testset_wav/p232_048.wav
+data/noisy_testset_wav/p232_049.wav data/clean_testset_wav/p232_049.wav
+data/noisy_testset_wav/p232_050.wav data/clean_testset_wav/p232_050.wav
+data/noisy_testset_wav/p232_051.wav data/clean_testset_wav/p232_051.wav
+data/noisy_testset_wav/p232_052.wav data/clean_testset_wav/p232_052.wav
+data/noisy_testset_wav/p232_053.wav data/clean_testset_wav/p232_053.wav
+data/noisy_testset_wav/p232_054.wav data/clean_testset_wav/p232_054.wav
+data/noisy_testset_wav/p232_055.wav data/clean_testset_wav/p232_055.wav
+data/noisy_testset_wav/p232_056.wav data/clean_testset_wav/p232_056.wav
+data/noisy_testset_wav/p232_057.wav data/clean_testset_wav/p232_057.wav
+data/noisy_testset_wav/p232_058.wav data/clean_testset_wav/p232_058.wav
+data/noisy_testset_wav/p232_059.wav data/clean_testset_wav/p232_059.wav
+data/noisy_testset_wav/p232_060.wav data/clean_testset_wav/p232_060.wav
+data/noisy_testset_wav/p232_061.wav data/clean_testset_wav/p232_061.wav
+data/noisy_testset_wav/p232_062.wav data/clean_testset_wav/p232_062.wav
+data/noisy_testset_wav/p232_063.wav data/clean_testset_wav/p232_063.wav
+data/noisy_testset_wav/p232_064.wav data/clean_testset_wav/p232_064.wav
+data/noisy_testset_wav/p232_065.wav data/clean_testset_wav/p232_065.wav
+data/noisy_testset_wav/p232_066.wav data/clean_testset_wav/p232_066.wav
+data/noisy_testset_wav/p232_067.wav data/clean_testset_wav/p232_067.wav
+data/noisy_testset_wav/p232_068.wav data/clean_testset_wav/p232_068.wav
+data/noisy_testset_wav/p232_069.wav data/clean_testset_wav/p232_069.wav
+data/noisy_testset_wav/p232_070.wav data/clean_testset_wav/p232_070.wav
+data/noisy_testset_wav/p232_071.wav data/clean_testset_wav/p232_071.wav
+data/noisy_testset_wav/p232_072.wav data/clean_testset_wav/p232_072.wav
+data/noisy_testset_wav/p232_073.wav data/clean_testset_wav/p232_073.wav
+data/noisy_testset_wav/p232_074.wav data/clean_testset_wav/p232_074.wav
+data/noisy_testset_wav/p232_075.wav data/clean_testset_wav/p232_075.wav
+data/noisy_testset_wav/p232_076.wav data/clean_testset_wav/p232_076.wav
+data/noisy_testset_wav/p232_077.wav data/clean_testset_wav/p232_077.wav
+data/noisy_testset_wav/p232_078.wav data/clean_testset_wav/p232_078.wav
+data/noisy_testset_wav/p232_079.wav data/clean_testset_wav/p232_079.wav
+data/noisy_testset_wav/p232_080.wav data/clean_testset_wav/p232_080.wav
+data/noisy_testset_wav/p232_081.wav data/clean_testset_wav/p232_081.wav
+data/noisy_testset_wav/p232_082.wav data/clean_testset_wav/p232_082.wav
+data/noisy_testset_wav/p232_083.wav data/clean_testset_wav/p232_083.wav
+data/noisy_testset_wav/p232_084.wav data/clean_testset_wav/p232_084.wav
+data/noisy_testset_wav/p232_085.wav data/clean_testset_wav/p232_085.wav
+data/noisy_testset_wav/p232_086.wav data/clean_testset_wav/p232_086.wav
+data/noisy_testset_wav/p232_087.wav data/clean_testset_wav/p232_087.wav
+data/noisy_testset_wav/p232_088.wav data/clean_testset_wav/p232_088.wav
+data/noisy_testset_wav/p232_089.wav data/clean_testset_wav/p232_089.wav
+data/noisy_testset_wav/p232_090.wav data/clean_testset_wav/p232_090.wav
+data/noisy_testset_wav/p232_091.wav data/clean_testset_wav/p232_091.wav
+data/noisy_testset_wav/p232_092.wav data/clean_testset_wav/p232_092.wav
+data/noisy_testset_wav/p232_093.wav data/clean_testset_wav/p232_093.wav
+data/noisy_testset_wav/p232_094.wav data/clean_testset_wav/p232_094.wav
+data/noisy_testset_wav/p232_095.wav data/clean_testset_wav/p232_095.wav
+data/noisy_testset_wav/p232_096.wav data/clean_testset_wav/p232_096.wav
+data/noisy_testset_wav/p232_097.wav data/clean_testset_wav/p232_097.wav
+data/noisy_testset_wav/p232_098.wav data/clean_testset_wav/p232_098.wav
+data/noisy_testset_wav/p232_099.wav data/clean_testset_wav/p232_099.wav
+data/noisy_testset_wav/p232_100.wav data/clean_testset_wav/p232_100.wav
+data/noisy_testset_wav/p232_101.wav data/clean_testset_wav/p232_101.wav
+data/noisy_testset_wav/p232_102.wav data/clean_testset_wav/p232_102.wav
+data/noisy_testset_wav/p232_103.wav data/clean_testset_wav/p232_103.wav
+data/noisy_testset_wav/p232_104.wav data/clean_testset_wav/p232_104.wav
+data/noisy_testset_wav/p232_105.wav data/clean_testset_wav/p232_105.wav
+data/noisy_testset_wav/p232_106.wav data/clean_testset_wav/p232_106.wav
+data/noisy_testset_wav/p232_107.wav data/clean_testset_wav/p232_107.wav
+data/noisy_testset_wav/p232_108.wav data/clean_testset_wav/p232_108.wav
+data/noisy_testset_wav/p232_109.wav data/clean_testset_wav/p232_109.wav
+data/noisy_testset_wav/p232_110.wav data/clean_testset_wav/p232_110.wav
+data/noisy_testset_wav/p232_112.wav data/clean_testset_wav/p232_112.wav
+data/noisy_testset_wav/p232_113.wav data/clean_testset_wav/p232_113.wav
+data/noisy_testset_wav/p232_114.wav data/clean_testset_wav/p232_114.wav
+data/noisy_testset_wav/p232_115.wav data/clean_testset_wav/p232_115.wav
+data/noisy_testset_wav/p232_116.wav data/clean_testset_wav/p232_116.wav
+data/noisy_testset_wav/p232_117.wav data/clean_testset_wav/p232_117.wav
+data/noisy_testset_wav/p232_118.wav data/clean_testset_wav/p232_118.wav
+data/noisy_testset_wav/p232_119.wav data/clean_testset_wav/p232_119.wav
+data/noisy_testset_wav/p232_120.wav data/clean_testset_wav/p232_120.wav
+data/noisy_testset_wav/p232_121.wav data/clean_testset_wav/p232_121.wav
+data/noisy_testset_wav/p232_123.wav data/clean_testset_wav/p232_123.wav
+data/noisy_testset_wav/p232_124.wav data/clean_testset_wav/p232_124.wav
+data/noisy_testset_wav/p232_125.wav data/clean_testset_wav/p232_125.wav
+data/noisy_testset_wav/p232_126.wav data/clean_testset_wav/p232_126.wav
+data/noisy_testset_wav/p232_127.wav data/clean_testset_wav/p232_127.wav
+data/noisy_testset_wav/p232_128.wav data/clean_testset_wav/p232_128.wav
+data/noisy_testset_wav/p232_129.wav data/clean_testset_wav/p232_129.wav
+data/noisy_testset_wav/p232_130.wav data/clean_testset_wav/p232_130.wav
+data/noisy_testset_wav/p232_131.wav data/clean_testset_wav/p232_131.wav
+data/noisy_testset_wav/p232_132.wav data/clean_testset_wav/p232_132.wav
+data/noisy_testset_wav/p232_133.wav data/clean_testset_wav/p232_133.wav
+data/noisy_testset_wav/p232_134.wav data/clean_testset_wav/p232_134.wav
+data/noisy_testset_wav/p232_135.wav data/clean_testset_wav/p232_135.wav
+data/noisy_testset_wav/p232_136.wav data/clean_testset_wav/p232_136.wav
+data/noisy_testset_wav/p232_137.wav data/clean_testset_wav/p232_137.wav
+data/noisy_testset_wav/p232_138.wav data/clean_testset_wav/p232_138.wav
+data/noisy_testset_wav/p232_139.wav data/clean_testset_wav/p232_139.wav
+data/noisy_testset_wav/p232_140.wav data/clean_testset_wav/p232_140.wav
+data/noisy_testset_wav/p232_141.wav data/clean_testset_wav/p232_141.wav
+data/noisy_testset_wav/p232_142.wav data/clean_testset_wav/p232_142.wav
+data/noisy_testset_wav/p232_143.wav data/clean_testset_wav/p232_143.wav
+data/noisy_testset_wav/p232_144.wav data/clean_testset_wav/p232_144.wav
+data/noisy_testset_wav/p232_145.wav data/clean_testset_wav/p232_145.wav
+data/noisy_testset_wav/p232_146.wav data/clean_testset_wav/p232_146.wav
+data/noisy_testset_wav/p232_147.wav data/clean_testset_wav/p232_147.wav
+data/noisy_testset_wav/p232_148.wav data/clean_testset_wav/p232_148.wav
+data/noisy_testset_wav/p232_150.wav data/clean_testset_wav/p232_150.wav
+data/noisy_testset_wav/p232_151.wav data/clean_testset_wav/p232_151.wav
+data/noisy_testset_wav/p232_152.wav data/clean_testset_wav/p232_152.wav
+data/noisy_testset_wav/p232_153.wav data/clean_testset_wav/p232_153.wav
+data/noisy_testset_wav/p232_154.wav data/clean_testset_wav/p232_154.wav
+data/noisy_testset_wav/p232_155.wav data/clean_testset_wav/p232_155.wav
+data/noisy_testset_wav/p232_156.wav data/clean_testset_wav/p232_156.wav
+data/noisy_testset_wav/p232_158.wav data/clean_testset_wav/p232_158.wav
+data/noisy_testset_wav/p232_159.wav data/clean_testset_wav/p232_159.wav
+data/noisy_testset_wav/p232_160.wav data/clean_testset_wav/p232_160.wav
+data/noisy_testset_wav/p232_161.wav data/clean_testset_wav/p232_161.wav
+data/noisy_testset_wav/p232_162.wav data/clean_testset_wav/p232_162.wav
+data/noisy_testset_wav/p232_163.wav data/clean_testset_wav/p232_163.wav
+data/noisy_testset_wav/p232_164.wav data/clean_testset_wav/p232_164.wav
+data/noisy_testset_wav/p232_165.wav data/clean_testset_wav/p232_165.wav
+data/noisy_testset_wav/p232_167.wav data/clean_testset_wav/p232_167.wav
+data/noisy_testset_wav/p232_169.wav data/clean_testset_wav/p232_169.wav
+data/noisy_testset_wav/p232_170.wav data/clean_testset_wav/p232_170.wav
+data/noisy_testset_wav/p232_171.wav data/clean_testset_wav/p232_171.wav
+data/noisy_testset_wav/p232_172.wav data/clean_testset_wav/p232_172.wav
+data/noisy_testset_wav/p232_173.wav data/clean_testset_wav/p232_173.wav
+data/noisy_testset_wav/p232_174.wav data/clean_testset_wav/p232_174.wav
+data/noisy_testset_wav/p232_175.wav data/clean_testset_wav/p232_175.wav
+data/noisy_testset_wav/p232_176.wav data/clean_testset_wav/p232_176.wav
+data/noisy_testset_wav/p232_177.wav data/clean_testset_wav/p232_177.wav
+data/noisy_testset_wav/p232_178.wav data/clean_testset_wav/p232_178.wav
+data/noisy_testset_wav/p232_179.wav data/clean_testset_wav/p232_179.wav
+data/noisy_testset_wav/p232_180.wav data/clean_testset_wav/p232_180.wav
+data/noisy_testset_wav/p232_181.wav data/clean_testset_wav/p232_181.wav
+data/noisy_testset_wav/p232_182.wav data/clean_testset_wav/p232_182.wav
+data/noisy_testset_wav/p232_183.wav data/clean_testset_wav/p232_183.wav
+data/noisy_testset_wav/p232_184.wav data/clean_testset_wav/p232_184.wav
+data/noisy_testset_wav/p232_185.wav data/clean_testset_wav/p232_185.wav
+data/noisy_testset_wav/p232_186.wav data/clean_testset_wav/p232_186.wav
+data/noisy_testset_wav/p232_187.wav data/clean_testset_wav/p232_187.wav
+data/noisy_testset_wav/p232_188.wav data/clean_testset_wav/p232_188.wav
+data/noisy_testset_wav/p232_189.wav data/clean_testset_wav/p232_189.wav
+data/noisy_testset_wav/p232_190.wav data/clean_testset_wav/p232_190.wav
+data/noisy_testset_wav/p232_191.wav data/clean_testset_wav/p232_191.wav
+data/noisy_testset_wav/p232_193.wav data/clean_testset_wav/p232_193.wav
+data/noisy_testset_wav/p232_194.wav data/clean_testset_wav/p232_194.wav
+data/noisy_testset_wav/p232_195.wav data/clean_testset_wav/p232_195.wav
+data/noisy_testset_wav/p232_196.wav data/clean_testset_wav/p232_196.wav
+data/noisy_testset_wav/p232_197.wav data/clean_testset_wav/p232_197.wav
+data/noisy_testset_wav/p232_198.wav data/clean_testset_wav/p232_198.wav
+data/noisy_testset_wav/p232_199.wav data/clean_testset_wav/p232_199.wav
+data/noisy_testset_wav/p232_200.wav data/clean_testset_wav/p232_200.wav
+data/noisy_testset_wav/p232_201.wav data/clean_testset_wav/p232_201.wav
+data/noisy_testset_wav/p232_202.wav data/clean_testset_wav/p232_202.wav
+data/noisy_testset_wav/p232_203.wav data/clean_testset_wav/p232_203.wav
+data/noisy_testset_wav/p232_204.wav data/clean_testset_wav/p232_204.wav
+data/noisy_testset_wav/p232_205.wav data/clean_testset_wav/p232_205.wav
+data/noisy_testset_wav/p232_206.wav data/clean_testset_wav/p232_206.wav
+data/noisy_testset_wav/p232_207.wav data/clean_testset_wav/p232_207.wav
+data/noisy_testset_wav/p232_208.wav data/clean_testset_wav/p232_208.wav
+data/noisy_testset_wav/p232_209.wav data/clean_testset_wav/p232_209.wav
+data/noisy_testset_wav/p232_210.wav data/clean_testset_wav/p232_210.wav
+data/noisy_testset_wav/p232_211.wav data/clean_testset_wav/p232_211.wav
+data/noisy_testset_wav/p232_213.wav data/clean_testset_wav/p232_213.wav
+data/noisy_testset_wav/p232_214.wav data/clean_testset_wav/p232_214.wav
+data/noisy_testset_wav/p232_215.wav data/clean_testset_wav/p232_215.wav
+data/noisy_testset_wav/p232_216.wav data/clean_testset_wav/p232_216.wav
+data/noisy_testset_wav/p232_217.wav data/clean_testset_wav/p232_217.wav
+data/noisy_testset_wav/p232_218.wav data/clean_testset_wav/p232_218.wav
+data/noisy_testset_wav/p232_219.wav data/clean_testset_wav/p232_219.wav
+data/noisy_testset_wav/p232_220.wav data/clean_testset_wav/p232_220.wav
+data/noisy_testset_wav/p232_221.wav data/clean_testset_wav/p232_221.wav
+data/noisy_testset_wav/p232_223.wav data/clean_testset_wav/p232_223.wav
+data/noisy_testset_wav/p232_224.wav data/clean_testset_wav/p232_224.wav
+data/noisy_testset_wav/p232_225.wav data/clean_testset_wav/p232_225.wav
+data/noisy_testset_wav/p232_226.wav data/clean_testset_wav/p232_226.wav
+data/noisy_testset_wav/p232_227.wav data/clean_testset_wav/p232_227.wav
+data/noisy_testset_wav/p232_228.wav data/clean_testset_wav/p232_228.wav
+data/noisy_testset_wav/p232_229.wav data/clean_testset_wav/p232_229.wav
+data/noisy_testset_wav/p232_230.wav data/clean_testset_wav/p232_230.wav
+data/noisy_testset_wav/p232_231.wav data/clean_testset_wav/p232_231.wav
+data/noisy_testset_wav/p232_232.wav data/clean_testset_wav/p232_232.wav
+data/noisy_testset_wav/p232_234.wav data/clean_testset_wav/p232_234.wav
+data/noisy_testset_wav/p232_235.wav data/clean_testset_wav/p232_235.wav
+data/noisy_testset_wav/p232_236.wav data/clean_testset_wav/p232_236.wav
+data/noisy_testset_wav/p232_237.wav data/clean_testset_wav/p232_237.wav
+data/noisy_testset_wav/p232_238.wav data/clean_testset_wav/p232_238.wav
+data/noisy_testset_wav/p232_239.wav data/clean_testset_wav/p232_239.wav
+data/noisy_testset_wav/p232_240.wav data/clean_testset_wav/p232_240.wav
+data/noisy_testset_wav/p232_241.wav data/clean_testset_wav/p232_241.wav
+data/noisy_testset_wav/p232_242.wav data/clean_testset_wav/p232_242.wav
+data/noisy_testset_wav/p232_243.wav data/clean_testset_wav/p232_243.wav
+data/noisy_testset_wav/p232_244.wav data/clean_testset_wav/p232_244.wav
+data/noisy_testset_wav/p232_245.wav data/clean_testset_wav/p232_245.wav
+data/noisy_testset_wav/p232_246.wav data/clean_testset_wav/p232_246.wav
+data/noisy_testset_wav/p232_247.wav data/clean_testset_wav/p232_247.wav
+data/noisy_testset_wav/p232_248.wav data/clean_testset_wav/p232_248.wav
+data/noisy_testset_wav/p232_249.wav data/clean_testset_wav/p232_249.wav
+data/noisy_testset_wav/p232_250.wav data/clean_testset_wav/p232_250.wav
+data/noisy_testset_wav/p232_251.wav data/clean_testset_wav/p232_251.wav
+data/noisy_testset_wav/p232_252.wav data/clean_testset_wav/p232_252.wav
+data/noisy_testset_wav/p232_253.wav data/clean_testset_wav/p232_253.wav
+data/noisy_testset_wav/p232_254.wav data/clean_testset_wav/p232_254.wav
+data/noisy_testset_wav/p232_255.wav data/clean_testset_wav/p232_255.wav
+data/noisy_testset_wav/p232_256.wav data/clean_testset_wav/p232_256.wav
+data/noisy_testset_wav/p232_257.wav data/clean_testset_wav/p232_257.wav
+data/noisy_testset_wav/p232_258.wav data/clean_testset_wav/p232_258.wav
+data/noisy_testset_wav/p232_259.wav data/clean_testset_wav/p232_259.wav
+data/noisy_testset_wav/p232_260.wav data/clean_testset_wav/p232_260.wav
+data/noisy_testset_wav/p232_261.wav data/clean_testset_wav/p232_261.wav
+data/noisy_testset_wav/p232_263.wav data/clean_testset_wav/p232_263.wav
+data/noisy_testset_wav/p232_264.wav data/clean_testset_wav/p232_264.wav
+data/noisy_testset_wav/p232_265.wav data/clean_testset_wav/p232_265.wav
+data/noisy_testset_wav/p232_266.wav data/clean_testset_wav/p232_266.wav
+data/noisy_testset_wav/p232_267.wav data/clean_testset_wav/p232_267.wav
+data/noisy_testset_wav/p232_268.wav data/clean_testset_wav/p232_268.wav
+data/noisy_testset_wav/p232_269.wav data/clean_testset_wav/p232_269.wav
+data/noisy_testset_wav/p232_270.wav data/clean_testset_wav/p232_270.wav
+data/noisy_testset_wav/p232_271.wav data/clean_testset_wav/p232_271.wav
+data/noisy_testset_wav/p232_272.wav data/clean_testset_wav/p232_272.wav
+data/noisy_testset_wav/p232_273.wav data/clean_testset_wav/p232_273.wav
+data/noisy_testset_wav/p232_274.wav data/clean_testset_wav/p232_274.wav
+data/noisy_testset_wav/p232_275.wav data/clean_testset_wav/p232_275.wav
+data/noisy_testset_wav/p232_276.wav data/clean_testset_wav/p232_276.wav
+data/noisy_testset_wav/p232_277.wav data/clean_testset_wav/p232_277.wav
+data/noisy_testset_wav/p232_278.wav data/clean_testset_wav/p232_278.wav
+data/noisy_testset_wav/p232_279.wav data/clean_testset_wav/p232_279.wav
+data/noisy_testset_wav/p232_280.wav data/clean_testset_wav/p232_280.wav
+data/noisy_testset_wav/p232_281.wav data/clean_testset_wav/p232_281.wav
+data/noisy_testset_wav/p232_282.wav data/clean_testset_wav/p232_282.wav
+data/noisy_testset_wav/p232_283.wav data/clean_testset_wav/p232_283.wav
+data/noisy_testset_wav/p232_284.wav data/clean_testset_wav/p232_284.wav
+data/noisy_testset_wav/p232_285.wav data/clean_testset_wav/p232_285.wav
+data/noisy_testset_wav/p232_286.wav data/clean_testset_wav/p232_286.wav
+data/noisy_testset_wav/p232_287.wav data/clean_testset_wav/p232_287.wav
+data/noisy_testset_wav/p232_288.wav data/clean_testset_wav/p232_288.wav
+data/noisy_testset_wav/p232_289.wav data/clean_testset_wav/p232_289.wav
+data/noisy_testset_wav/p232_290.wav data/clean_testset_wav/p232_290.wav
+data/noisy_testset_wav/p232_291.wav data/clean_testset_wav/p232_291.wav
+data/noisy_testset_wav/p232_292.wav data/clean_testset_wav/p232_292.wav
+data/noisy_testset_wav/p232_293.wav data/clean_testset_wav/p232_293.wav
+data/noisy_testset_wav/p232_294.wav data/clean_testset_wav/p232_294.wav
+data/noisy_testset_wav/p232_295.wav data/clean_testset_wav/p232_295.wav
+data/noisy_testset_wav/p232_296.wav data/clean_testset_wav/p232_296.wav
+data/noisy_testset_wav/p232_297.wav data/clean_testset_wav/p232_297.wav
+data/noisy_testset_wav/p232_298.wav data/clean_testset_wav/p232_298.wav
+data/noisy_testset_wav/p232_299.wav data/clean_testset_wav/p232_299.wav
+data/noisy_testset_wav/p232_300.wav data/clean_testset_wav/p232_300.wav
+data/noisy_testset_wav/p232_301.wav data/clean_testset_wav/p232_301.wav
+data/noisy_testset_wav/p232_302.wav data/clean_testset_wav/p232_302.wav
+data/noisy_testset_wav/p232_303.wav data/clean_testset_wav/p232_303.wav
+data/noisy_testset_wav/p232_305.wav data/clean_testset_wav/p232_305.wav
+data/noisy_testset_wav/p232_306.wav data/clean_testset_wav/p232_306.wav
+data/noisy_testset_wav/p232_307.wav data/clean_testset_wav/p232_307.wav
+data/noisy_testset_wav/p232_308.wav data/clean_testset_wav/p232_308.wav
+data/noisy_testset_wav/p232_309.wav data/clean_testset_wav/p232_309.wav
+data/noisy_testset_wav/p232_310.wav data/clean_testset_wav/p232_310.wav
+data/noisy_testset_wav/p232_311.wav data/clean_testset_wav/p232_311.wav
+data/noisy_testset_wav/p232_312.wav data/clean_testset_wav/p232_312.wav
+data/noisy_testset_wav/p232_313.wav data/clean_testset_wav/p232_313.wav
+data/noisy_testset_wav/p232_314.wav data/clean_testset_wav/p232_314.wav
+data/noisy_testset_wav/p232_315.wav data/clean_testset_wav/p232_315.wav
+data/noisy_testset_wav/p232_316.wav data/clean_testset_wav/p232_316.wav
+data/noisy_testset_wav/p232_317.wav data/clean_testset_wav/p232_317.wav
+data/noisy_testset_wav/p232_318.wav data/clean_testset_wav/p232_318.wav
+data/noisy_testset_wav/p232_319.wav data/clean_testset_wav/p232_319.wav
+data/noisy_testset_wav/p232_320.wav data/clean_testset_wav/p232_320.wav
+data/noisy_testset_wav/p232_321.wav data/clean_testset_wav/p232_321.wav
+data/noisy_testset_wav/p232_322.wav data/clean_testset_wav/p232_322.wav
+data/noisy_testset_wav/p232_323.wav data/clean_testset_wav/p232_323.wav
+data/noisy_testset_wav/p232_324.wav data/clean_testset_wav/p232_324.wav
+data/noisy_testset_wav/p232_325.wav data/clean_testset_wav/p232_325.wav
+data/noisy_testset_wav/p232_326.wav data/clean_testset_wav/p232_326.wav
+data/noisy_testset_wav/p232_327.wav data/clean_testset_wav/p232_327.wav
+data/noisy_testset_wav/p232_328.wav data/clean_testset_wav/p232_328.wav
+data/noisy_testset_wav/p232_329.wav data/clean_testset_wav/p232_329.wav
+data/noisy_testset_wav/p232_330.wav data/clean_testset_wav/p232_330.wav
+data/noisy_testset_wav/p232_331.wav data/clean_testset_wav/p232_331.wav
+data/noisy_testset_wav/p232_332.wav data/clean_testset_wav/p232_332.wav
+data/noisy_testset_wav/p232_333.wav data/clean_testset_wav/p232_333.wav
+data/noisy_testset_wav/p232_334.wav data/clean_testset_wav/p232_334.wav
+data/noisy_testset_wav/p232_335.wav data/clean_testset_wav/p232_335.wav
+data/noisy_testset_wav/p232_336.wav data/clean_testset_wav/p232_336.wav
+data/noisy_testset_wav/p232_337.wav data/clean_testset_wav/p232_337.wav
+data/noisy_testset_wav/p232_338.wav data/clean_testset_wav/p232_338.wav
+data/noisy_testset_wav/p232_339.wav data/clean_testset_wav/p232_339.wav
+data/noisy_testset_wav/p232_340.wav data/clean_testset_wav/p232_340.wav
+data/noisy_testset_wav/p232_341.wav data/clean_testset_wav/p232_341.wav
+data/noisy_testset_wav/p232_342.wav data/clean_testset_wav/p232_342.wav
+data/noisy_testset_wav/p232_343.wav data/clean_testset_wav/p232_343.wav
+data/noisy_testset_wav/p232_344.wav data/clean_testset_wav/p232_344.wav
+data/noisy_testset_wav/p232_346.wav data/clean_testset_wav/p232_346.wav
+data/noisy_testset_wav/p232_347.wav data/clean_testset_wav/p232_347.wav
+data/noisy_testset_wav/p232_348.wav data/clean_testset_wav/p232_348.wav
+data/noisy_testset_wav/p232_349.wav data/clean_testset_wav/p232_349.wav
+data/noisy_testset_wav/p232_350.wav data/clean_testset_wav/p232_350.wav
+data/noisy_testset_wav/p232_351.wav data/clean_testset_wav/p232_351.wav
+data/noisy_testset_wav/p232_352.wav data/clean_testset_wav/p232_352.wav
+data/noisy_testset_wav/p232_353.wav data/clean_testset_wav/p232_353.wav
+data/noisy_testset_wav/p232_354.wav data/clean_testset_wav/p232_354.wav
+data/noisy_testset_wav/p232_355.wav data/clean_testset_wav/p232_355.wav
+data/noisy_testset_wav/p232_356.wav data/clean_testset_wav/p232_356.wav
+data/noisy_testset_wav/p232_357.wav data/clean_testset_wav/p232_357.wav
+data/noisy_testset_wav/p232_358.wav data/clean_testset_wav/p232_358.wav
+data/noisy_testset_wav/p232_359.wav data/clean_testset_wav/p232_359.wav
+data/noisy_testset_wav/p232_360.wav data/clean_testset_wav/p232_360.wav
+data/noisy_testset_wav/p232_361.wav data/clean_testset_wav/p232_361.wav
+data/noisy_testset_wav/p232_362.wav data/clean_testset_wav/p232_362.wav
+data/noisy_testset_wav/p232_363.wav data/clean_testset_wav/p232_363.wav
+data/noisy_testset_wav/p232_364.wav data/clean_testset_wav/p232_364.wav
+data/noisy_testset_wav/p232_365.wav data/clean_testset_wav/p232_365.wav
+data/noisy_testset_wav/p232_366.wav data/clean_testset_wav/p232_366.wav
+data/noisy_testset_wav/p232_367.wav data/clean_testset_wav/p232_367.wav
+data/noisy_testset_wav/p232_368.wav data/clean_testset_wav/p232_368.wav
+data/noisy_testset_wav/p232_369.wav data/clean_testset_wav/p232_369.wav
+data/noisy_testset_wav/p232_370.wav data/clean_testset_wav/p232_370.wav
+data/noisy_testset_wav/p232_371.wav data/clean_testset_wav/p232_371.wav
+data/noisy_testset_wav/p232_372.wav data/clean_testset_wav/p232_372.wav
+data/noisy_testset_wav/p232_373.wav data/clean_testset_wav/p232_373.wav
+data/noisy_testset_wav/p232_374.wav data/clean_testset_wav/p232_374.wav
+data/noisy_testset_wav/p232_375.wav data/clean_testset_wav/p232_375.wav
+data/noisy_testset_wav/p232_377.wav data/clean_testset_wav/p232_377.wav
+data/noisy_testset_wav/p232_378.wav data/clean_testset_wav/p232_378.wav
+data/noisy_testset_wav/p232_379.wav data/clean_testset_wav/p232_379.wav
+data/noisy_testset_wav/p232_380.wav data/clean_testset_wav/p232_380.wav
+data/noisy_testset_wav/p232_381.wav data/clean_testset_wav/p232_381.wav
+data/noisy_testset_wav/p232_382.wav data/clean_testset_wav/p232_382.wav
+data/noisy_testset_wav/p232_383.wav data/clean_testset_wav/p232_383.wav
+data/noisy_testset_wav/p232_384.wav data/clean_testset_wav/p232_384.wav
+data/noisy_testset_wav/p232_385.wav data/clean_testset_wav/p232_385.wav
+data/noisy_testset_wav/p232_386.wav data/clean_testset_wav/p232_386.wav
+data/noisy_testset_wav/p232_387.wav data/clean_testset_wav/p232_387.wav
+data/noisy_testset_wav/p232_388.wav data/clean_testset_wav/p232_388.wav
+data/noisy_testset_wav/p232_389.wav data/clean_testset_wav/p232_389.wav
+data/noisy_testset_wav/p232_390.wav data/clean_testset_wav/p232_390.wav
+data/noisy_testset_wav/p232_391.wav data/clean_testset_wav/p232_391.wav
+data/noisy_testset_wav/p232_392.wav data/clean_testset_wav/p232_392.wav
+data/noisy_testset_wav/p232_393.wav data/clean_testset_wav/p232_393.wav
+data/noisy_testset_wav/p232_394.wav data/clean_testset_wav/p232_394.wav
+data/noisy_testset_wav/p232_396.wav data/clean_testset_wav/p232_396.wav
+data/noisy_testset_wav/p232_397.wav data/clean_testset_wav/p232_397.wav
+data/noisy_testset_wav/p232_398.wav data/clean_testset_wav/p232_398.wav
+data/noisy_testset_wav/p232_399.wav data/clean_testset_wav/p232_399.wav
+data/noisy_testset_wav/p232_400.wav data/clean_testset_wav/p232_400.wav
+data/noisy_testset_wav/p232_402.wav data/clean_testset_wav/p232_402.wav
+data/noisy_testset_wav/p232_403.wav data/clean_testset_wav/p232_403.wav
+data/noisy_testset_wav/p232_404.wav data/clean_testset_wav/p232_404.wav
+data/noisy_testset_wav/p232_405.wav data/clean_testset_wav/p232_405.wav
+data/noisy_testset_wav/p232_407.wav data/clean_testset_wav/p232_407.wav
+data/noisy_testset_wav/p232_409.wav data/clean_testset_wav/p232_409.wav
+data/noisy_testset_wav/p232_410.wav data/clean_testset_wav/p232_410.wav
+data/noisy_testset_wav/p232_411.wav data/clean_testset_wav/p232_411.wav
+data/noisy_testset_wav/p232_412.wav data/clean_testset_wav/p232_412.wav
+data/noisy_testset_wav/p232_413.wav data/clean_testset_wav/p232_413.wav
+data/noisy_testset_wav/p232_414.wav data/clean_testset_wav/p232_414.wav
+data/noisy_testset_wav/p232_415.wav data/clean_testset_wav/p232_415.wav
+data/noisy_testset_wav/p257_001.wav data/clean_testset_wav/p257_001.wav
+data/noisy_testset_wav/p257_002.wav data/clean_testset_wav/p257_002.wav
+data/noisy_testset_wav/p257_003.wav data/clean_testset_wav/p257_003.wav
+data/noisy_testset_wav/p257_004.wav data/clean_testset_wav/p257_004.wav
+data/noisy_testset_wav/p257_006.wav data/clean_testset_wav/p257_006.wav
+data/noisy_testset_wav/p257_007.wav data/clean_testset_wav/p257_007.wav
+data/noisy_testset_wav/p257_008.wav data/clean_testset_wav/p257_008.wav
+data/noisy_testset_wav/p257_009.wav data/clean_testset_wav/p257_009.wav
+data/noisy_testset_wav/p257_010.wav data/clean_testset_wav/p257_010.wav
+data/noisy_testset_wav/p257_011.wav data/clean_testset_wav/p257_011.wav
+data/noisy_testset_wav/p257_012.wav data/clean_testset_wav/p257_012.wav
+data/noisy_testset_wav/p257_013.wav data/clean_testset_wav/p257_013.wav
+data/noisy_testset_wav/p257_014.wav data/clean_testset_wav/p257_014.wav
+data/noisy_testset_wav/p257_015.wav data/clean_testset_wav/p257_015.wav
+data/noisy_testset_wav/p257_016.wav data/clean_testset_wav/p257_016.wav
+data/noisy_testset_wav/p257_017.wav data/clean_testset_wav/p257_017.wav
+data/noisy_testset_wav/p257_018.wav data/clean_testset_wav/p257_018.wav
+data/noisy_testset_wav/p257_019.wav data/clean_testset_wav/p257_019.wav
+data/noisy_testset_wav/p257_020.wav data/clean_testset_wav/p257_020.wav
+data/noisy_testset_wav/p257_022.wav data/clean_testset_wav/p257_022.wav
+data/noisy_testset_wav/p257_023.wav data/clean_testset_wav/p257_023.wav
+data/noisy_testset_wav/p257_024.wav data/clean_testset_wav/p257_024.wav
+data/noisy_testset_wav/p257_025.wav data/clean_testset_wav/p257_025.wav
+data/noisy_testset_wav/p257_026.wav data/clean_testset_wav/p257_026.wav
+data/noisy_testset_wav/p257_027.wav data/clean_testset_wav/p257_027.wav
+data/noisy_testset_wav/p257_028.wav data/clean_testset_wav/p257_028.wav
+data/noisy_testset_wav/p257_029.wav data/clean_testset_wav/p257_029.wav
+data/noisy_testset_wav/p257_030.wav data/clean_testset_wav/p257_030.wav
+data/noisy_testset_wav/p257_031.wav data/clean_testset_wav/p257_031.wav
+data/noisy_testset_wav/p257_032.wav data/clean_testset_wav/p257_032.wav
+data/noisy_testset_wav/p257_033.wav data/clean_testset_wav/p257_033.wav
+data/noisy_testset_wav/p257_034.wav data/clean_testset_wav/p257_034.wav
+data/noisy_testset_wav/p257_035.wav data/clean_testset_wav/p257_035.wav
+data/noisy_testset_wav/p257_036.wav data/clean_testset_wav/p257_036.wav
+data/noisy_testset_wav/p257_037.wav data/clean_testset_wav/p257_037.wav
+data/noisy_testset_wav/p257_038.wav data/clean_testset_wav/p257_038.wav
+data/noisy_testset_wav/p257_039.wav data/clean_testset_wav/p257_039.wav
+data/noisy_testset_wav/p257_040.wav data/clean_testset_wav/p257_040.wav
+data/noisy_testset_wav/p257_041.wav data/clean_testset_wav/p257_041.wav
+data/noisy_testset_wav/p257_042.wav data/clean_testset_wav/p257_042.wav
+data/noisy_testset_wav/p257_043.wav data/clean_testset_wav/p257_043.wav
+data/noisy_testset_wav/p257_044.wav data/clean_testset_wav/p257_044.wav
+data/noisy_testset_wav/p257_045.wav data/clean_testset_wav/p257_045.wav
+data/noisy_testset_wav/p257_046.wav data/clean_testset_wav/p257_046.wav
+data/noisy_testset_wav/p257_047.wav data/clean_testset_wav/p257_047.wav
+data/noisy_testset_wav/p257_048.wav data/clean_testset_wav/p257_048.wav
+data/noisy_testset_wav/p257_049.wav data/clean_testset_wav/p257_049.wav
+data/noisy_testset_wav/p257_050.wav data/clean_testset_wav/p257_050.wav
+data/noisy_testset_wav/p257_051.wav data/clean_testset_wav/p257_051.wav
+data/noisy_testset_wav/p257_052.wav data/clean_testset_wav/p257_052.wav
+data/noisy_testset_wav/p257_053.wav data/clean_testset_wav/p257_053.wav
+data/noisy_testset_wav/p257_054.wav data/clean_testset_wav/p257_054.wav
+data/noisy_testset_wav/p257_055.wav data/clean_testset_wav/p257_055.wav
+data/noisy_testset_wav/p257_056.wav data/clean_testset_wav/p257_056.wav
+data/noisy_testset_wav/p257_057.wav data/clean_testset_wav/p257_057.wav
+data/noisy_testset_wav/p257_058.wav data/clean_testset_wav/p257_058.wav
+data/noisy_testset_wav/p257_059.wav data/clean_testset_wav/p257_059.wav
+data/noisy_testset_wav/p257_060.wav data/clean_testset_wav/p257_060.wav
+data/noisy_testset_wav/p257_061.wav data/clean_testset_wav/p257_061.wav
+data/noisy_testset_wav/p257_062.wav data/clean_testset_wav/p257_062.wav
+data/noisy_testset_wav/p257_063.wav data/clean_testset_wav/p257_063.wav
+data/noisy_testset_wav/p257_064.wav data/clean_testset_wav/p257_064.wav
+data/noisy_testset_wav/p257_065.wav data/clean_testset_wav/p257_065.wav
+data/noisy_testset_wav/p257_066.wav data/clean_testset_wav/p257_066.wav
+data/noisy_testset_wav/p257_067.wav data/clean_testset_wav/p257_067.wav
+data/noisy_testset_wav/p257_068.wav data/clean_testset_wav/p257_068.wav
+data/noisy_testset_wav/p257_069.wav data/clean_testset_wav/p257_069.wav
+data/noisy_testset_wav/p257_070.wav data/clean_testset_wav/p257_070.wav
+data/noisy_testset_wav/p257_071.wav data/clean_testset_wav/p257_071.wav
+data/noisy_testset_wav/p257_072.wav data/clean_testset_wav/p257_072.wav
+data/noisy_testset_wav/p257_073.wav data/clean_testset_wav/p257_073.wav
+data/noisy_testset_wav/p257_074.wav data/clean_testset_wav/p257_074.wav
+data/noisy_testset_wav/p257_075.wav data/clean_testset_wav/p257_075.wav
+data/noisy_testset_wav/p257_076.wav data/clean_testset_wav/p257_076.wav
+data/noisy_testset_wav/p257_077.wav data/clean_testset_wav/p257_077.wav
+data/noisy_testset_wav/p257_078.wav data/clean_testset_wav/p257_078.wav
+data/noisy_testset_wav/p257_079.wav data/clean_testset_wav/p257_079.wav
+data/noisy_testset_wav/p257_080.wav data/clean_testset_wav/p257_080.wav
+data/noisy_testset_wav/p257_081.wav data/clean_testset_wav/p257_081.wav
+data/noisy_testset_wav/p257_082.wav data/clean_testset_wav/p257_082.wav
+data/noisy_testset_wav/p257_083.wav data/clean_testset_wav/p257_083.wav
+data/noisy_testset_wav/p257_084.wav data/clean_testset_wav/p257_084.wav
+data/noisy_testset_wav/p257_085.wav data/clean_testset_wav/p257_085.wav
+data/noisy_testset_wav/p257_086.wav data/clean_testset_wav/p257_086.wav
+data/noisy_testset_wav/p257_087.wav data/clean_testset_wav/p257_087.wav
+data/noisy_testset_wav/p257_088.wav data/clean_testset_wav/p257_088.wav
+data/noisy_testset_wav/p257_089.wav data/clean_testset_wav/p257_089.wav
+data/noisy_testset_wav/p257_090.wav data/clean_testset_wav/p257_090.wav
+data/noisy_testset_wav/p257_091.wav data/clean_testset_wav/p257_091.wav
+data/noisy_testset_wav/p257_092.wav data/clean_testset_wav/p257_092.wav
+data/noisy_testset_wav/p257_093.wav data/clean_testset_wav/p257_093.wav
+data/noisy_testset_wav/p257_094.wav data/clean_testset_wav/p257_094.wav
+data/noisy_testset_wav/p257_095.wav data/clean_testset_wav/p257_095.wav
+data/noisy_testset_wav/p257_096.wav data/clean_testset_wav/p257_096.wav
+data/noisy_testset_wav/p257_097.wav data/clean_testset_wav/p257_097.wav
+data/noisy_testset_wav/p257_098.wav data/clean_testset_wav/p257_098.wav
+data/noisy_testset_wav/p257_099.wav data/clean_testset_wav/p257_099.wav
+data/noisy_testset_wav/p257_100.wav data/clean_testset_wav/p257_100.wav
+data/noisy_testset_wav/p257_101.wav data/clean_testset_wav/p257_101.wav
+data/noisy_testset_wav/p257_102.wav data/clean_testset_wav/p257_102.wav
+data/noisy_testset_wav/p257_103.wav data/clean_testset_wav/p257_103.wav
+data/noisy_testset_wav/p257_104.wav data/clean_testset_wav/p257_104.wav
+data/noisy_testset_wav/p257_105.wav data/clean_testset_wav/p257_105.wav
+data/noisy_testset_wav/p257_106.wav data/clean_testset_wav/p257_106.wav
+data/noisy_testset_wav/p257_107.wav data/clean_testset_wav/p257_107.wav
+data/noisy_testset_wav/p257_108.wav data/clean_testset_wav/p257_108.wav
+data/noisy_testset_wav/p257_109.wav data/clean_testset_wav/p257_109.wav
+data/noisy_testset_wav/p257_110.wav data/clean_testset_wav/p257_110.wav
+data/noisy_testset_wav/p257_111.wav data/clean_testset_wav/p257_111.wav
+data/noisy_testset_wav/p257_112.wav data/clean_testset_wav/p257_112.wav
+data/noisy_testset_wav/p257_113.wav data/clean_testset_wav/p257_113.wav
+data/noisy_testset_wav/p257_114.wav data/clean_testset_wav/p257_114.wav
+data/noisy_testset_wav/p257_115.wav data/clean_testset_wav/p257_115.wav
+data/noisy_testset_wav/p257_116.wav data/clean_testset_wav/p257_116.wav
+data/noisy_testset_wav/p257_117.wav data/clean_testset_wav/p257_117.wav
+data/noisy_testset_wav/p257_118.wav data/clean_testset_wav/p257_118.wav
+data/noisy_testset_wav/p257_119.wav data/clean_testset_wav/p257_119.wav
+data/noisy_testset_wav/p257_120.wav data/clean_testset_wav/p257_120.wav
+data/noisy_testset_wav/p257_121.wav data/clean_testset_wav/p257_121.wav
+data/noisy_testset_wav/p257_122.wav data/clean_testset_wav/p257_122.wav
+data/noisy_testset_wav/p257_123.wav data/clean_testset_wav/p257_123.wav
+data/noisy_testset_wav/p257_124.wav data/clean_testset_wav/p257_124.wav
+data/noisy_testset_wav/p257_125.wav data/clean_testset_wav/p257_125.wav
+data/noisy_testset_wav/p257_126.wav data/clean_testset_wav/p257_126.wav
+data/noisy_testset_wav/p257_127.wav data/clean_testset_wav/p257_127.wav
+data/noisy_testset_wav/p257_128.wav data/clean_testset_wav/p257_128.wav
+data/noisy_testset_wav/p257_129.wav data/clean_testset_wav/p257_129.wav
+data/noisy_testset_wav/p257_130.wav data/clean_testset_wav/p257_130.wav
+data/noisy_testset_wav/p257_131.wav data/clean_testset_wav/p257_131.wav
+data/noisy_testset_wav/p257_132.wav data/clean_testset_wav/p257_132.wav
+data/noisy_testset_wav/p257_133.wav data/clean_testset_wav/p257_133.wav
+data/noisy_testset_wav/p257_135.wav data/clean_testset_wav/p257_135.wav
+data/noisy_testset_wav/p257_136.wav data/clean_testset_wav/p257_136.wav
+data/noisy_testset_wav/p257_137.wav data/clean_testset_wav/p257_137.wav
+data/noisy_testset_wav/p257_138.wav data/clean_testset_wav/p257_138.wav
+data/noisy_testset_wav/p257_139.wav data/clean_testset_wav/p257_139.wav
+data/noisy_testset_wav/p257_140.wav data/clean_testset_wav/p257_140.wav
+data/noisy_testset_wav/p257_141.wav data/clean_testset_wav/p257_141.wav
+data/noisy_testset_wav/p257_142.wav data/clean_testset_wav/p257_142.wav
+data/noisy_testset_wav/p257_143.wav data/clean_testset_wav/p257_143.wav
+data/noisy_testset_wav/p257_144.wav data/clean_testset_wav/p257_144.wav
+data/noisy_testset_wav/p257_145.wav data/clean_testset_wav/p257_145.wav
+data/noisy_testset_wav/p257_146.wav data/clean_testset_wav/p257_146.wav
+data/noisy_testset_wav/p257_147.wav data/clean_testset_wav/p257_147.wav
+data/noisy_testset_wav/p257_148.wav data/clean_testset_wav/p257_148.wav
+data/noisy_testset_wav/p257_149.wav data/clean_testset_wav/p257_149.wav
+data/noisy_testset_wav/p257_150.wav data/clean_testset_wav/p257_150.wav
+data/noisy_testset_wav/p257_151.wav data/clean_testset_wav/p257_151.wav
+data/noisy_testset_wav/p257_152.wav data/clean_testset_wav/p257_152.wav
+data/noisy_testset_wav/p257_153.wav data/clean_testset_wav/p257_153.wav
+data/noisy_testset_wav/p257_154.wav data/clean_testset_wav/p257_154.wav
+data/noisy_testset_wav/p257_155.wav data/clean_testset_wav/p257_155.wav
+data/noisy_testset_wav/p257_156.wav data/clean_testset_wav/p257_156.wav
+data/noisy_testset_wav/p257_157.wav data/clean_testset_wav/p257_157.wav
+data/noisy_testset_wav/p257_158.wav data/clean_testset_wav/p257_158.wav
+data/noisy_testset_wav/p257_159.wav data/clean_testset_wav/p257_159.wav
+data/noisy_testset_wav/p257_160.wav data/clean_testset_wav/p257_160.wav
+data/noisy_testset_wav/p257_161.wav data/clean_testset_wav/p257_161.wav
+data/noisy_testset_wav/p257_162.wav data/clean_testset_wav/p257_162.wav
+data/noisy_testset_wav/p257_163.wav data/clean_testset_wav/p257_163.wav
+data/noisy_testset_wav/p257_164.wav data/clean_testset_wav/p257_164.wav
+data/noisy_testset_wav/p257_165.wav data/clean_testset_wav/p257_165.wav
+data/noisy_testset_wav/p257_166.wav data/clean_testset_wav/p257_166.wav
+data/noisy_testset_wav/p257_167.wav data/clean_testset_wav/p257_167.wav
+data/noisy_testset_wav/p257_168.wav data/clean_testset_wav/p257_168.wav
+data/noisy_testset_wav/p257_169.wav data/clean_testset_wav/p257_169.wav
+data/noisy_testset_wav/p257_170.wav data/clean_testset_wav/p257_170.wav
+data/noisy_testset_wav/p257_171.wav data/clean_testset_wav/p257_171.wav
+data/noisy_testset_wav/p257_172.wav data/clean_testset_wav/p257_172.wav
+data/noisy_testset_wav/p257_173.wav data/clean_testset_wav/p257_173.wav
+data/noisy_testset_wav/p257_174.wav data/clean_testset_wav/p257_174.wav
+data/noisy_testset_wav/p257_175.wav data/clean_testset_wav/p257_175.wav
+data/noisy_testset_wav/p257_176.wav data/clean_testset_wav/p257_176.wav
+data/noisy_testset_wav/p257_177.wav data/clean_testset_wav/p257_177.wav
+data/noisy_testset_wav/p257_178.wav data/clean_testset_wav/p257_178.wav
+data/noisy_testset_wav/p257_179.wav data/clean_testset_wav/p257_179.wav
+data/noisy_testset_wav/p257_180.wav data/clean_testset_wav/p257_180.wav
+data/noisy_testset_wav/p257_181.wav data/clean_testset_wav/p257_181.wav
+data/noisy_testset_wav/p257_182.wav data/clean_testset_wav/p257_182.wav
+data/noisy_testset_wav/p257_183.wav data/clean_testset_wav/p257_183.wav
+data/noisy_testset_wav/p257_184.wav data/clean_testset_wav/p257_184.wav
+data/noisy_testset_wav/p257_185.wav data/clean_testset_wav/p257_185.wav
+data/noisy_testset_wav/p257_186.wav data/clean_testset_wav/p257_186.wav
+data/noisy_testset_wav/p257_187.wav data/clean_testset_wav/p257_187.wav
+data/noisy_testset_wav/p257_188.wav data/clean_testset_wav/p257_188.wav
+data/noisy_testset_wav/p257_189.wav data/clean_testset_wav/p257_189.wav
+data/noisy_testset_wav/p257_190.wav data/clean_testset_wav/p257_190.wav
+data/noisy_testset_wav/p257_191.wav data/clean_testset_wav/p257_191.wav
+data/noisy_testset_wav/p257_192.wav data/clean_testset_wav/p257_192.wav
+data/noisy_testset_wav/p257_193.wav data/clean_testset_wav/p257_193.wav
+data/noisy_testset_wav/p257_194.wav data/clean_testset_wav/p257_194.wav
+data/noisy_testset_wav/p257_195.wav data/clean_testset_wav/p257_195.wav
+data/noisy_testset_wav/p257_196.wav data/clean_testset_wav/p257_196.wav
+data/noisy_testset_wav/p257_197.wav data/clean_testset_wav/p257_197.wav
+data/noisy_testset_wav/p257_198.wav data/clean_testset_wav/p257_198.wav
+data/noisy_testset_wav/p257_199.wav data/clean_testset_wav/p257_199.wav
+data/noisy_testset_wav/p257_200.wav data/clean_testset_wav/p257_200.wav
+data/noisy_testset_wav/p257_201.wav data/clean_testset_wav/p257_201.wav
+data/noisy_testset_wav/p257_202.wav data/clean_testset_wav/p257_202.wav
+data/noisy_testset_wav/p257_203.wav data/clean_testset_wav/p257_203.wav
+data/noisy_testset_wav/p257_204.wav data/clean_testset_wav/p257_204.wav
+data/noisy_testset_wav/p257_205.wav data/clean_testset_wav/p257_205.wav
+data/noisy_testset_wav/p257_206.wav data/clean_testset_wav/p257_206.wav
+data/noisy_testset_wav/p257_207.wav data/clean_testset_wav/p257_207.wav
+data/noisy_testset_wav/p257_208.wav data/clean_testset_wav/p257_208.wav
+data/noisy_testset_wav/p257_209.wav data/clean_testset_wav/p257_209.wav
+data/noisy_testset_wav/p257_210.wav data/clean_testset_wav/p257_210.wav
+data/noisy_testset_wav/p257_211.wav data/clean_testset_wav/p257_211.wav
+data/noisy_testset_wav/p257_212.wav data/clean_testset_wav/p257_212.wav
+data/noisy_testset_wav/p257_213.wav data/clean_testset_wav/p257_213.wav
+data/noisy_testset_wav/p257_214.wav data/clean_testset_wav/p257_214.wav
+data/noisy_testset_wav/p257_215.wav data/clean_testset_wav/p257_215.wav
+data/noisy_testset_wav/p257_216.wav data/clean_testset_wav/p257_216.wav
+data/noisy_testset_wav/p257_217.wav data/clean_testset_wav/p257_217.wav
+data/noisy_testset_wav/p257_218.wav data/clean_testset_wav/p257_218.wav
+data/noisy_testset_wav/p257_219.wav data/clean_testset_wav/p257_219.wav
+data/noisy_testset_wav/p257_220.wav data/clean_testset_wav/p257_220.wav
+data/noisy_testset_wav/p257_221.wav data/clean_testset_wav/p257_221.wav
+data/noisy_testset_wav/p257_222.wav data/clean_testset_wav/p257_222.wav
+data/noisy_testset_wav/p257_223.wav data/clean_testset_wav/p257_223.wav
+data/noisy_testset_wav/p257_224.wav data/clean_testset_wav/p257_224.wav
+data/noisy_testset_wav/p257_225.wav data/clean_testset_wav/p257_225.wav
+data/noisy_testset_wav/p257_226.wav data/clean_testset_wav/p257_226.wav
+data/noisy_testset_wav/p257_227.wav data/clean_testset_wav/p257_227.wav
+data/noisy_testset_wav/p257_228.wav data/clean_testset_wav/p257_228.wav
+data/noisy_testset_wav/p257_229.wav data/clean_testset_wav/p257_229.wav
+data/noisy_testset_wav/p257_230.wav data/clean_testset_wav/p257_230.wav
+data/noisy_testset_wav/p257_231.wav data/clean_testset_wav/p257_231.wav
+data/noisy_testset_wav/p257_232.wav data/clean_testset_wav/p257_232.wav
+data/noisy_testset_wav/p257_233.wav data/clean_testset_wav/p257_233.wav
+data/noisy_testset_wav/p257_234.wav data/clean_testset_wav/p257_234.wav
+data/noisy_testset_wav/p257_235.wav data/clean_testset_wav/p257_235.wav
+data/noisy_testset_wav/p257_236.wav data/clean_testset_wav/p257_236.wav
+data/noisy_testset_wav/p257_237.wav data/clean_testset_wav/p257_237.wav
+data/noisy_testset_wav/p257_238.wav data/clean_testset_wav/p257_238.wav
+data/noisy_testset_wav/p257_239.wav data/clean_testset_wav/p257_239.wav
+data/noisy_testset_wav/p257_240.wav data/clean_testset_wav/p257_240.wav
+data/noisy_testset_wav/p257_241.wav data/clean_testset_wav/p257_241.wav
+data/noisy_testset_wav/p257_242.wav data/clean_testset_wav/p257_242.wav
+data/noisy_testset_wav/p257_243.wav data/clean_testset_wav/p257_243.wav
+data/noisy_testset_wav/p257_244.wav data/clean_testset_wav/p257_244.wav
+data/noisy_testset_wav/p257_245.wav data/clean_testset_wav/p257_245.wav
+data/noisy_testset_wav/p257_246.wav data/clean_testset_wav/p257_246.wav
+data/noisy_testset_wav/p257_247.wav data/clean_testset_wav/p257_247.wav
+data/noisy_testset_wav/p257_248.wav data/clean_testset_wav/p257_248.wav
+data/noisy_testset_wav/p257_249.wav data/clean_testset_wav/p257_249.wav
+data/noisy_testset_wav/p257_250.wav data/clean_testset_wav/p257_250.wav
+data/noisy_testset_wav/p257_251.wav data/clean_testset_wav/p257_251.wav
+data/noisy_testset_wav/p257_252.wav data/clean_testset_wav/p257_252.wav
+data/noisy_testset_wav/p257_253.wav data/clean_testset_wav/p257_253.wav
+data/noisy_testset_wav/p257_254.wav data/clean_testset_wav/p257_254.wav
+data/noisy_testset_wav/p257_255.wav data/clean_testset_wav/p257_255.wav
+data/noisy_testset_wav/p257_256.wav data/clean_testset_wav/p257_256.wav
+data/noisy_testset_wav/p257_257.wav data/clean_testset_wav/p257_257.wav
+data/noisy_testset_wav/p257_258.wav data/clean_testset_wav/p257_258.wav
+data/noisy_testset_wav/p257_259.wav data/clean_testset_wav/p257_259.wav
+data/noisy_testset_wav/p257_260.wav data/clean_testset_wav/p257_260.wav
+data/noisy_testset_wav/p257_261.wav data/clean_testset_wav/p257_261.wav
+data/noisy_testset_wav/p257_262.wav data/clean_testset_wav/p257_262.wav
+data/noisy_testset_wav/p257_263.wav data/clean_testset_wav/p257_263.wav
+data/noisy_testset_wav/p257_264.wav data/clean_testset_wav/p257_264.wav
+data/noisy_testset_wav/p257_265.wav data/clean_testset_wav/p257_265.wav
+data/noisy_testset_wav/p257_266.wav data/clean_testset_wav/p257_266.wav
+data/noisy_testset_wav/p257_267.wav data/clean_testset_wav/p257_267.wav
+data/noisy_testset_wav/p257_268.wav data/clean_testset_wav/p257_268.wav
+data/noisy_testset_wav/p257_269.wav data/clean_testset_wav/p257_269.wav
+data/noisy_testset_wav/p257_270.wav data/clean_testset_wav/p257_270.wav
+data/noisy_testset_wav/p257_271.wav data/clean_testset_wav/p257_271.wav
+data/noisy_testset_wav/p257_272.wav data/clean_testset_wav/p257_272.wav
+data/noisy_testset_wav/p257_273.wav data/clean_testset_wav/p257_273.wav
+data/noisy_testset_wav/p257_274.wav data/clean_testset_wav/p257_274.wav
+data/noisy_testset_wav/p257_275.wav data/clean_testset_wav/p257_275.wav
+data/noisy_testset_wav/p257_276.wav data/clean_testset_wav/p257_276.wav
+data/noisy_testset_wav/p257_277.wav data/clean_testset_wav/p257_277.wav
+data/noisy_testset_wav/p257_278.wav data/clean_testset_wav/p257_278.wav
+data/noisy_testset_wav/p257_279.wav data/clean_testset_wav/p257_279.wav
+data/noisy_testset_wav/p257_280.wav data/clean_testset_wav/p257_280.wav
+data/noisy_testset_wav/p257_281.wav data/clean_testset_wav/p257_281.wav
+data/noisy_testset_wav/p257_282.wav data/clean_testset_wav/p257_282.wav
+data/noisy_testset_wav/p257_283.wav data/clean_testset_wav/p257_283.wav
+data/noisy_testset_wav/p257_284.wav data/clean_testset_wav/p257_284.wav
+data/noisy_testset_wav/p257_285.wav data/clean_testset_wav/p257_285.wav
+data/noisy_testset_wav/p257_286.wav data/clean_testset_wav/p257_286.wav
+data/noisy_testset_wav/p257_287.wav data/clean_testset_wav/p257_287.wav
+data/noisy_testset_wav/p257_288.wav data/clean_testset_wav/p257_288.wav
+data/noisy_testset_wav/p257_289.wav data/clean_testset_wav/p257_289.wav
+data/noisy_testset_wav/p257_290.wav data/clean_testset_wav/p257_290.wav
+data/noisy_testset_wav/p257_291.wav data/clean_testset_wav/p257_291.wav
+data/noisy_testset_wav/p257_292.wav data/clean_testset_wav/p257_292.wav
+data/noisy_testset_wav/p257_293.wav data/clean_testset_wav/p257_293.wav
+data/noisy_testset_wav/p257_294.wav data/clean_testset_wav/p257_294.wav
+data/noisy_testset_wav/p257_295.wav data/clean_testset_wav/p257_295.wav
+data/noisy_testset_wav/p257_296.wav data/clean_testset_wav/p257_296.wav
+data/noisy_testset_wav/p257_297.wav data/clean_testset_wav/p257_297.wav
+data/noisy_testset_wav/p257_298.wav data/clean_testset_wav/p257_298.wav
+data/noisy_testset_wav/p257_299.wav data/clean_testset_wav/p257_299.wav
+data/noisy_testset_wav/p257_300.wav data/clean_testset_wav/p257_300.wav
+data/noisy_testset_wav/p257_301.wav data/clean_testset_wav/p257_301.wav
+data/noisy_testset_wav/p257_302.wav data/clean_testset_wav/p257_302.wav
+data/noisy_testset_wav/p257_303.wav data/clean_testset_wav/p257_303.wav
+data/noisy_testset_wav/p257_304.wav data/clean_testset_wav/p257_304.wav
+data/noisy_testset_wav/p257_305.wav data/clean_testset_wav/p257_305.wav
+data/noisy_testset_wav/p257_306.wav data/clean_testset_wav/p257_306.wav
+data/noisy_testset_wav/p257_307.wav data/clean_testset_wav/p257_307.wav
+data/noisy_testset_wav/p257_308.wav data/clean_testset_wav/p257_308.wav
+data/noisy_testset_wav/p257_309.wav data/clean_testset_wav/p257_309.wav
+data/noisy_testset_wav/p257_310.wav data/clean_testset_wav/p257_310.wav
+data/noisy_testset_wav/p257_311.wav data/clean_testset_wav/p257_311.wav
+data/noisy_testset_wav/p257_312.wav data/clean_testset_wav/p257_312.wav
+data/noisy_testset_wav/p257_313.wav data/clean_testset_wav/p257_313.wav
+data/noisy_testset_wav/p257_314.wav data/clean_testset_wav/p257_314.wav
+data/noisy_testset_wav/p257_315.wav data/clean_testset_wav/p257_315.wav
+data/noisy_testset_wav/p257_316.wav data/clean_testset_wav/p257_316.wav
+data/noisy_testset_wav/p257_317.wav data/clean_testset_wav/p257_317.wav
+data/noisy_testset_wav/p257_318.wav data/clean_testset_wav/p257_318.wav
+data/noisy_testset_wav/p257_319.wav data/clean_testset_wav/p257_319.wav
+data/noisy_testset_wav/p257_320.wav data/clean_testset_wav/p257_320.wav
+data/noisy_testset_wav/p257_321.wav data/clean_testset_wav/p257_321.wav
+data/noisy_testset_wav/p257_322.wav data/clean_testset_wav/p257_322.wav
+data/noisy_testset_wav/p257_323.wav data/clean_testset_wav/p257_323.wav
+data/noisy_testset_wav/p257_324.wav data/clean_testset_wav/p257_324.wav
+data/noisy_testset_wav/p257_325.wav data/clean_testset_wav/p257_325.wav
+data/noisy_testset_wav/p257_326.wav data/clean_testset_wav/p257_326.wav
+data/noisy_testset_wav/p257_327.wav data/clean_testset_wav/p257_327.wav
+data/noisy_testset_wav/p257_328.wav data/clean_testset_wav/p257_328.wav
+data/noisy_testset_wav/p257_329.wav data/clean_testset_wav/p257_329.wav
+data/noisy_testset_wav/p257_330.wav data/clean_testset_wav/p257_330.wav
+data/noisy_testset_wav/p257_331.wav data/clean_testset_wav/p257_331.wav
+data/noisy_testset_wav/p257_332.wav data/clean_testset_wav/p257_332.wav
+data/noisy_testset_wav/p257_333.wav data/clean_testset_wav/p257_333.wav
+data/noisy_testset_wav/p257_334.wav data/clean_testset_wav/p257_334.wav
+data/noisy_testset_wav/p257_335.wav data/clean_testset_wav/p257_335.wav
+data/noisy_testset_wav/p257_336.wav data/clean_testset_wav/p257_336.wav
+data/noisy_testset_wav/p257_337.wav data/clean_testset_wav/p257_337.wav
+data/noisy_testset_wav/p257_338.wav data/clean_testset_wav/p257_338.wav
+data/noisy_testset_wav/p257_339.wav data/clean_testset_wav/p257_339.wav
+data/noisy_testset_wav/p257_340.wav data/clean_testset_wav/p257_340.wav
+data/noisy_testset_wav/p257_341.wav data/clean_testset_wav/p257_341.wav
+data/noisy_testset_wav/p257_342.wav data/clean_testset_wav/p257_342.wav
+data/noisy_testset_wav/p257_343.wav data/clean_testset_wav/p257_343.wav
+data/noisy_testset_wav/p257_344.wav data/clean_testset_wav/p257_344.wav
+data/noisy_testset_wav/p257_345.wav data/clean_testset_wav/p257_345.wav
+data/noisy_testset_wav/p257_346.wav data/clean_testset_wav/p257_346.wav
+data/noisy_testset_wav/p257_347.wav data/clean_testset_wav/p257_347.wav
+data/noisy_testset_wav/p257_348.wav data/clean_testset_wav/p257_348.wav
+data/noisy_testset_wav/p257_349.wav data/clean_testset_wav/p257_349.wav
+data/noisy_testset_wav/p257_350.wav data/clean_testset_wav/p257_350.wav
+data/noisy_testset_wav/p257_351.wav data/clean_testset_wav/p257_351.wav
+data/noisy_testset_wav/p257_352.wav data/clean_testset_wav/p257_352.wav
+data/noisy_testset_wav/p257_353.wav data/clean_testset_wav/p257_353.wav
+data/noisy_testset_wav/p257_354.wav data/clean_testset_wav/p257_354.wav
+data/noisy_testset_wav/p257_355.wav data/clean_testset_wav/p257_355.wav
+data/noisy_testset_wav/p257_356.wav data/clean_testset_wav/p257_356.wav
+data/noisy_testset_wav/p257_357.wav data/clean_testset_wav/p257_357.wav
+data/noisy_testset_wav/p257_358.wav data/clean_testset_wav/p257_358.wav
+data/noisy_testset_wav/p257_359.wav data/clean_testset_wav/p257_359.wav
+data/noisy_testset_wav/p257_360.wav data/clean_testset_wav/p257_360.wav
+data/noisy_testset_wav/p257_361.wav data/clean_testset_wav/p257_361.wav
+data/noisy_testset_wav/p257_362.wav data/clean_testset_wav/p257_362.wav
+data/noisy_testset_wav/p257_363.wav data/clean_testset_wav/p257_363.wav
+data/noisy_testset_wav/p257_364.wav data/clean_testset_wav/p257_364.wav
+data/noisy_testset_wav/p257_365.wav data/clean_testset_wav/p257_365.wav
+data/noisy_testset_wav/p257_366.wav data/clean_testset_wav/p257_366.wav
+data/noisy_testset_wav/p257_367.wav data/clean_testset_wav/p257_367.wav
+data/noisy_testset_wav/p257_368.wav data/clean_testset_wav/p257_368.wav
+data/noisy_testset_wav/p257_369.wav data/clean_testset_wav/p257_369.wav
+data/noisy_testset_wav/p257_370.wav data/clean_testset_wav/p257_370.wav
+data/noisy_testset_wav/p257_371.wav data/clean_testset_wav/p257_371.wav
+data/noisy_testset_wav/p257_372.wav data/clean_testset_wav/p257_372.wav
+data/noisy_testset_wav/p257_373.wav data/clean_testset_wav/p257_373.wav
+data/noisy_testset_wav/p257_374.wav data/clean_testset_wav/p257_374.wav
+data/noisy_testset_wav/p257_375.wav data/clean_testset_wav/p257_375.wav
+data/noisy_testset_wav/p257_376.wav data/clean_testset_wav/p257_376.wav
+data/noisy_testset_wav/p257_377.wav data/clean_testset_wav/p257_377.wav
+data/noisy_testset_wav/p257_378.wav data/clean_testset_wav/p257_378.wav
+data/noisy_testset_wav/p257_379.wav data/clean_testset_wav/p257_379.wav
+data/noisy_testset_wav/p257_380.wav data/clean_testset_wav/p257_380.wav
+data/noisy_testset_wav/p257_381.wav data/clean_testset_wav/p257_381.wav
+data/noisy_testset_wav/p257_382.wav data/clean_testset_wav/p257_382.wav
+data/noisy_testset_wav/p257_383.wav data/clean_testset_wav/p257_383.wav
+data/noisy_testset_wav/p257_384.wav data/clean_testset_wav/p257_384.wav
+data/noisy_testset_wav/p257_385.wav data/clean_testset_wav/p257_385.wav
+data/noisy_testset_wav/p257_386.wav data/clean_testset_wav/p257_386.wav
+data/noisy_testset_wav/p257_387.wav data/clean_testset_wav/p257_387.wav
+data/noisy_testset_wav/p257_388.wav data/clean_testset_wav/p257_388.wav
+data/noisy_testset_wav/p257_389.wav data/clean_testset_wav/p257_389.wav
+data/noisy_testset_wav/p257_390.wav data/clean_testset_wav/p257_390.wav
+data/noisy_testset_wav/p257_391.wav data/clean_testset_wav/p257_391.wav
+data/noisy_testset_wav/p257_392.wav data/clean_testset_wav/p257_392.wav
+data/noisy_testset_wav/p257_393.wav data/clean_testset_wav/p257_393.wav
+data/noisy_testset_wav/p257_394.wav data/clean_testset_wav/p257_394.wav
+data/noisy_testset_wav/p257_395.wav data/clean_testset_wav/p257_395.wav
+data/noisy_testset_wav/p257_396.wav data/clean_testset_wav/p257_396.wav
+data/noisy_testset_wav/p257_397.wav data/clean_testset_wav/p257_397.wav
+data/noisy_testset_wav/p257_398.wav data/clean_testset_wav/p257_398.wav
+data/noisy_testset_wav/p257_399.wav data/clean_testset_wav/p257_399.wav
+data/noisy_testset_wav/p257_400.wav data/clean_testset_wav/p257_400.wav
+data/noisy_testset_wav/p257_401.wav data/clean_testset_wav/p257_401.wav
+data/noisy_testset_wav/p257_402.wav data/clean_testset_wav/p257_402.wav
+data/noisy_testset_wav/p257_403.wav data/clean_testset_wav/p257_403.wav
+data/noisy_testset_wav/p257_404.wav data/clean_testset_wav/p257_404.wav
+data/noisy_testset_wav/p257_405.wav data/clean_testset_wav/p257_405.wav
+data/noisy_testset_wav/p257_406.wav data/clean_testset_wav/p257_406.wav
+data/noisy_testset_wav/p257_407.wav data/clean_testset_wav/p257_407.wav
+data/noisy_testset_wav/p257_408.wav data/clean_testset_wav/p257_408.wav
+data/noisy_testset_wav/p257_409.wav data/clean_testset_wav/p257_409.wav
+data/noisy_testset_wav/p257_410.wav data/clean_testset_wav/p257_410.wav
+data/noisy_testset_wav/p257_411.wav data/clean_testset_wav/p257_411.wav
+data/noisy_testset_wav/p257_412.wav data/clean_testset_wav/p257_412.wav
+data/noisy_testset_wav/p257_413.wav data/clean_testset_wav/p257_413.wav
+data/noisy_testset_wav/p257_414.wav data/clean_testset_wav/p257_414.wav
+data/noisy_testset_wav/p257_415.wav data/clean_testset_wav/p257_415.wav
+data/noisy_testset_wav/p257_416.wav data/clean_testset_wav/p257_416.wav
+data/noisy_testset_wav/p257_417.wav data/clean_testset_wav/p257_417.wav
+data/noisy_testset_wav/p257_418.wav data/clean_testset_wav/p257_418.wav
+data/noisy_testset_wav/p257_419.wav data/clean_testset_wav/p257_419.wav
+data/noisy_testset_wav/p257_420.wav data/clean_testset_wav/p257_420.wav
+data/noisy_testset_wav/p257_421.wav data/clean_testset_wav/p257_421.wav
+data/noisy_testset_wav/p257_422.wav data/clean_testset_wav/p257_422.wav
+data/noisy_testset_wav/p257_423.wav data/clean_testset_wav/p257_423.wav
+data/noisy_testset_wav/p257_424.wav data/clean_testset_wav/p257_424.wav
+data/noisy_testset_wav/p257_425.wav data/clean_testset_wav/p257_425.wav
+data/noisy_testset_wav/p257_426.wav data/clean_testset_wav/p257_426.wav
+data/noisy_testset_wav/p257_427.wav data/clean_testset_wav/p257_427.wav
+data/noisy_testset_wav/p257_428.wav data/clean_testset_wav/p257_428.wav
+data/noisy_testset_wav/p257_429.wav data/clean_testset_wav/p257_429.wav
+data/noisy_testset_wav/p257_430.wav data/clean_testset_wav/p257_430.wav
+data/noisy_testset_wav/p257_431.wav data/clean_testset_wav/p257_431.wav
+data/noisy_testset_wav/p257_432.wav data/clean_testset_wav/p257_432.wav
+data/noisy_testset_wav/p257_433.wav data/clean_testset_wav/p257_433.wav
+data/noisy_testset_wav/p257_434.wav data/clean_testset_wav/p257_434.wav

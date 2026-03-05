@@ -148,7 +148,7 @@ class AudioDataset(Dataset):
             
         self.wav_processor = Wave_Processor()
         self.fbank_processor = Fbank_Processor()
-        self.segment_length = self.sampling_rate * self.args.max_length # to clip data in a fix length segment
+        self.segment_length = int(self.sampling_rate * self.args.max_length) # to clip data in a fix length segment
         print(f'No. {data_type} files: {len(self.wav_list)}')
 
     def __len__(self):
@@ -167,7 +167,7 @@ class AudioDataset(Dataset):
         return inputs, labels 
 
 
-def zero_pad_concat(self, inputs):
+def zero_pad_concat(inputs):
     max_t = max(inp.shape[0] for inp in inputs)
     shape = None
     if len(inputs[0].shape) == 1:
@@ -260,10 +260,8 @@ def get_dataloader(args, data_type):
     ) if hasattr(args, 'distributed') and args.distributed else None
 
     if hasattr(args, 'network'):
-        if args.network in ['FRCRN_SE_16K', 'MossFormerGAN_SE_16K']:
+        if args.network in ['MossFormerGAN_SE_16K', 'WaveUnet']:
             collate_fn = collate_fn_2x_wavs
-        elif args.network == 'MossFormer2_SE_48K':
-            collate_fn = collate_fn_2x_wavs_fbank
         else:
             print(f'in dataloader, please specify a correct network type using args.network!')
             return None, None
