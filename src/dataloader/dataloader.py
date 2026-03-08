@@ -31,13 +31,22 @@ def read_and_config_file(input_path, decode=0):
                         processed_list.append(path_s[0])
         return processed_list
 
-    with open(input_path) as fid:
+    with open(input_path, encoding='utf-8-sig') as fid:
         for line in fid:
             tmp_paths = line.strip().split()
             if len(tmp_paths) == 3:
-                sample = {'inputs': tmp_paths[0], 'labels':tmp_paths[1], 'duration':float(tmp_paths[2])}
+                sample = {
+                    'inputs': os.path.normpath(tmp_paths[0]),
+                    'labels': os.path.normpath(tmp_paths[1]),
+                    'duration': float(tmp_paths[2])
+                }
             elif len(tmp_paths) == 2:
-                sample = {'inputs': tmp_paths[0], 'labels':tmp_paths[1]}
+                sample = {
+                    'inputs': os.path.normpath(tmp_paths[0]),
+                    'labels': os.path.normpath(tmp_paths[1])
+                }
+            else:
+                continue
             processed_list.append(sample)
     return processed_list
 
@@ -55,12 +64,19 @@ def audio_norm(x):
 
 
 def audioread(path, sampling_rate):
-    data, fs = sf.read(path)    
+    try:
+        data, fs = sf.read(path)
+    except Exception as e:
+        raise RuntimeError(
+            f"soundfile could not read file: '{path}'\n"
+            f"  File exists: {os.path.exists(path)}\n"
+            f"  Original error: {e}"
+        ) from e
     data, scalar = audio_norm(data)
     if fs != sampling_rate:
         data = librosa.resample(data, orig_sr=fs, target_sr=sampling_rate)
     if len(data.shape) > 1:
-        data = data[:, 0]    
+        data = data[:, 0]
     return data, scalar
 
 
