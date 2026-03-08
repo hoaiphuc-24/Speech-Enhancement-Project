@@ -8,8 +8,10 @@ import torch.optim as optim
 import torch.nn.functional as F
 from torch.utils.tensorboard import SummaryWriter
 
-# Import our custom models and dataloader
+# Import our custom models, dataloader, and loss functions
 from src.dataloader.dataloader import get_dataloader
+from src.loss.waveunet_loss      import si_snr_loss as waveunet_si_snr_loss, waveunet_total
+from src.loss.mossformergan_loss import (discriminator_loss, mossformergan_g_total)
 
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 def get_args():
@@ -65,86 +67,6 @@ class ConfigArgs:
         self.distributed = cfg['distributed']['use_ddp']
         self.world_size = cfg['distributed']['world_size']
         self.local_rank = cfg['distributed']['local_rank']
-
-def feature_loss(fmap_r, fmap_g):
-    """Calculates Feature Matching Loss between real and fake features derived from discriminator."""
-    loss = 0
-    for dr, dg in zip(fmap_r, fmap_g):
-        for rl, gl in zip(dr, dg):
-            loss += torch.mean(torch.abs(rl - gl))
-    return loss * 2 # scale factor
-
-def discriminator_loss(disc_real_outputs, disc_generated_outputs):
-    """Calculates Discriminator Loss. It learns to output 1 for real and 0 for fake."""
-    loss = 0
-    r_losses = []
-    g_losses = []
-    for dr, dg in zip(disc_real_outputs, disc_generated_outputs):
-        r_loss = torch.mean((1 - dr) ** 2)
-        g_loss = torch.mean(dg ** 2)
-        loss += (r_loss + g_loss)
-        r_losses.append(r_loss.item())
-        g_losses.append(g_loss.item())
-    return loss, r_losses, g_losses
-
-def generator_loss(disc_outputs):
-    """Calculates Generator Loss from Discriminator output. It wants Discriminator to output 1 for fake."""
-    loss = 0
-    gen_losses = []
-    for dg in disc_outputs:
-        l = torch.mean((1 - dg) ** 2)
-        gen_losses.append(l)
-        loss += l
-    return loss, gen_losses
-
-
-def si_snr_loss(estimated, target, eps=1e-8):
-    """
-    Scale-Invariant Signal-to-Noise Ratio Loss.
-    Standard metric for speech enhancement — directly optimizes perceptual quality.
-    Input: [B, T] float32 tensors.
-    Returns: scalar loss (negative SI-SNR, so lower = better).
-    """
-    # Remove DC offset
-    estimated = estimated - estimated.mean(dim=-1, keepdim=True)
-    target    = target    - target.mean(dim=-1, keepdim=True)
-    # Projection of estimated onto target
-    dot          = (estimated * target).sum(dim=-1, keepdim=True)
-    target_power = (target ** 2).sum(dim=-1, keepdim=True) + eps
-    s_target     = dot * target / target_power          # scaled target
-    e_noise      = estimated - s_target                 # noise residual
-    si_snr = 10 * torch.log10(
-        (s_target ** 2).sum(dim=-1) / ((e_noise ** 2).sum(dim=-1) + eps) + eps
-    )
-    return -si_snr.mean()  # minimise negative SI-SNR
-
-
-def ms_stft_loss(estimated, target, fft_sizes=(512, 1024, 2048),
-                 hop_sizes=(128, 256, 512), win_sizes=(512, 1024, 2048)):
-    """
-    Multi-Scale STFT Loss — evaluates reconstruction quality across multiple
-    frequency resolutions.
-    Input: [B, T] float32 tensors.
-    Returns: scalar loss.
-    """
-    loss = 0.0
-    for fft_size, hop_size, win_size in zip(fft_sizes, hop_sizes, win_sizes):
-        window = torch.hann_window(win_size, device=estimated.device)
-        # Spectral convergence + log magnitude loss
-        S_est = torch.stft(estimated.reshape(-1, estimated.shape[-1]),
-                           n_fft=fft_size, hop_length=hop_size, win_length=win_size,
-                           window=window, return_complex=True)
-        S_tgt = torch.stft(target.reshape(-1, target.shape[-1]),
-                           n_fft=fft_size, hop_length=hop_size, win_length=win_size,
-                           window=window, return_complex=True)
-        mag_est = S_est.abs() + 1e-8
-        mag_tgt = S_tgt.abs() + 1e-8
-        # Spectral convergence
-        sc_loss  = torch.norm(mag_tgt - mag_est, 'fro') / (torch.norm(mag_tgt, 'fro') + 1e-8)
-        # Log-STFT magnitude
-        log_loss = F.l1_loss(torch.log(mag_est), torch.log(mag_tgt))
-        loss += sc_loss + log_loss
-    return loss / len(fft_sizes)
 
 
 def train(args):
@@ -212,6 +134,10 @@ def train(args):
 
     print("Starting Training Loop...")
     global_step = 0
+    best_si_snr = -float('inf')  # Track best validation SI-SNR (dB)
+    save_dir = os.path.join('experiments', args.network)
+    os.makedirs(save_dir, exist_ok=True)
+    best_model_path = os.path.join(save_dir, 'best_model.pt')
     
     for epoch in range(1, args.epochs + 1):
         model.train()
@@ -238,39 +164,31 @@ def train(args):
                 loss_d, _, _ = discriminator_loss(y_d_rs, y_d_gs)
                 loss_d.backward()
                 optim_d.step()
-    
+
                 # ---------------------
-                # Train Generator — Adversarial + L1 + SI-SNR
+                # Train Generator — via mossformergan_g_total
                 # ---------------------
                 optim_g.zero_grad()
-                y_d_rs, y_d_gs, _, _ = model.discriminator(clean_audio, enhanced_audio)
-                loss_g_fake, _  = generator_loss(y_d_gs)
-                loss_l1         = l1_loss_fn(enhanced_audio, clean_audio)
-                loss_si_snr     = si_snr_loss(enhanced_audio, clean_audio)
-
-                loss_g_total = (loss_g_fake
-                                + args.l1_weight    * loss_l1
-                                + args.si_snr_weight * loss_si_snr)
-
+                _, y_d_gs, _, _ = model.discriminator(clean_audio, enhanced_audio)
+                loss_g_total, _, loss_l1, loss_si_snr = mossformergan_g_total(
+                    enhanced_audio, clean_audio, y_d_gs,
+                    l1_loss_fn, args.l1_weight, args.si_snr_weight
+                )
                 loss_g_total.backward()
                 optim_g.step()
                 running_d_loss += loss_d.item()
-                loss_d_item = loss_d.item()
+                loss_d_item    = loss_d.item()
                 loss_stft_item = 0.0
             else:
                 # ---------------------
-                # Train WaveUnet — L1 + SI-SNR + Multi-Scale STFT
+                # Train WaveUnet — via waveunet_total
                 # ---------------------
                 optim_g.zero_grad()
-                enhanced_audio = model(noisy_audio)       # [B, T]
-                loss_l1         = l1_loss_fn(enhanced_audio, clean_audio)
-                loss_si_snr     = si_snr_loss(enhanced_audio, clean_audio)
-                loss_stft       = ms_stft_loss(enhanced_audio, clean_audio)
-
-                loss_g_total = (args.l1_weight     * loss_l1
-                                + args.si_snr_weight * loss_si_snr
-                                + args.stft_weight   * loss_stft)
-
+                enhanced_audio = model(noisy_audio)   # [B, T]
+                loss_g_total, loss_l1, loss_si_snr, loss_stft = waveunet_total(
+                    enhanced_audio, clean_audio, l1_loss_fn,
+                    args.l1_weight, args.si_snr_weight, args.stft_weight
+                )
                 loss_g_total.backward()
                 optim_g.step()
                 loss_d_item    = 0.0
@@ -315,17 +233,39 @@ def train(args):
                 v_clean = val_batch[1].to(device)
                 if is_gan:
                     v_enhanced = model.generator(v_noisy)
+                    val_si_snr += waveunet_si_snr_loss(v_enhanced, v_clean).item()
                 else:
                     v_enhanced = model(v_noisy)
-                val_si_snr += si_snr_loss(v_enhanced, v_clean).item()
-                val_l1     += l1_loss_fn(v_enhanced, v_clean).item()
+                    val_si_snr += waveunet_si_snr_loss(v_enhanced, v_clean).item()
+                val_l1 += l1_loss_fn(v_enhanced, v_clean).item()
 
         val_si_snr /= len(val_loader)
         val_l1     /= len(val_loader)
         # SI-SNR loss is negative, so actual SI-SNR (dB) = -val_si_snr
-        print(f"Validation — SI-SNR: {-val_si_snr:.2f} dB, L1: {val_l1:.4f}\n")
-        writer.add_scalar('Validation/SI-SNR_dB', -val_si_snr, epoch)
-        writer.add_scalar('Validation/Loss_L1',    val_l1,      epoch)
+        current_si_snr_db = -val_si_snr
+        print(f"Validation — SI-SNR: {current_si_snr_db:.2f} dB, L1: {val_l1:.4f}")
+        writer.add_scalar('Validation/SI-SNR_dB', current_si_snr_db, epoch)
+        writer.add_scalar('Validation/Loss_L1',   val_l1,            epoch)
+
+        # ---------------------
+        # Save Best Model
+        # ---------------------
+        if current_si_snr_db > best_si_snr:
+            best_si_snr = current_si_snr_db
+            state = {
+                'epoch':     epoch,
+                'si_snr_db': best_si_snr,
+                'args':      vars(args),
+            }
+            if is_gan:
+                state['generator_state_dict']     = model.generator.state_dict()
+                state['discriminator_state_dict'] = model.discriminator.state_dict()
+            else:
+                state['model_state_dict'] = model.state_dict()
+            torch.save(state, best_model_path)
+            print(f"  ✅ Best model saved — SI-SNR: {best_si_snr:.2f} dB → {best_model_path}")
+        else:
+            print(f"  (No improvement, best so far: {best_si_snr:.2f} dB)\n")
 
         # ---------------------
         # Step LR Schedulers
