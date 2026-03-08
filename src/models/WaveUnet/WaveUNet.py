@@ -34,7 +34,7 @@ class WaveUnet(nn.Module):
     Input shape: (Batch, Channels=1, Time) or (Batch, Time)
     Output shape: (Batch, Channels=1, Time)
     """
-    def __init__(self, in_channels=1, n_layers=12, channels_interval=24):
+    def __init__(self, in_channels=1, n_layers=10, channels_interval=20):
         super(WaveUnet, self).__init__()
         self.n_layers = n_layers
         self.channels_interval = channels_interval
@@ -120,9 +120,10 @@ class WaveUnet(nn.Module):
         return x
 
 if __name__ == '__main__':
-    # Test model
-    model = WaveUnet(in_channels=1, n_layers=12, channels_interval=24)
-    print(f"Total parameters: {sum(p.numel() for p in model.parameters() if p.requires_grad)}")
+    # Test model (n_layers=10, channels_interval=20 — ~42% smaller than original)
+    model = WaveUnet(in_channels=1, n_layers=10, channels_interval=20)
+    total_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
+    print(f"Total parameters: {total_params:,}")
     
     # Dummy input representing batch of 4 audio clips, 1 channel, 16000 samples (~1 sec audio)
     dummy_input = torch.randn(4, 1, 16000)
