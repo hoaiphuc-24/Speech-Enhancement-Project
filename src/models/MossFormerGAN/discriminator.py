@@ -70,3 +70,57 @@ class MultiScaleDiscriminator(nn.Module):
             fmap_gs.append(fmap_g)
 
         return y_d_rs, y_d_gs, fmap_rs, fmap_gs
+
+
+class MetricDiscriminator(nn.Module):
+    """
+    Metric Discriminator for spectral-domain GAN (e.g. CMGAN / MetricGAN+).
+    Takes two magnitude spectrograms (reference + enhanced) and predicts
+    a scalar quality score (e.g. PESQ).
+
+    Input: labels_mag [B, 1, F, T], pred_mag [B, 1, F, T]
+    Output: score [B] scalar quality estimate
+    """
+    def __init__(self, ndf=16):
+        super(MetricDiscriminator, self).__init__()
+        self.net = nn.Sequential(
+            # Combine reference + prediction: 2 channels input
+            nn.Conv2d(2, ndf, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1)),
+            nn.InstanceNorm2d(ndf, affine=True),
+            nn.PReLU(ndf),
+
+            nn.Conv2d(ndf, ndf * 2, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1)),
+            nn.InstanceNorm2d(ndf * 2, affine=True),
+            nn.PReLU(ndf * 2),
+
+            nn.Conv2d(ndf * 2, ndf * 4, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1)),
+            nn.InstanceNorm2d(ndf * 4, affine=True),
+            nn.PReLU(ndf * 4),
+
+            nn.Conv2d(ndf * 4, ndf * 8, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1)),
+            nn.InstanceNorm2d(ndf * 8, affine=True),
+            nn.PReLU(ndf * 8),
+        )
+        self.pool = nn.AdaptiveAvgPool2d((1, 1))
+        self.head = nn.Sequential(
+            nn.Flatten(),
+            nn.Linear(ndf * 8, 128),
+            nn.Dropout(0.3),
+            nn.PReLU(128),
+            nn.Linear(128, 1),
+            nn.Sigmoid(),
+        )
+
+    def forward(self, labels_mag, pred_mag):
+        """
+        Args:
+            labels_mag : [B, 1, F, T] reference magnitude spectrogram
+            pred_mag   : [B, 1, F, T] enhanced magnitude spectrogram
+        Returns:
+            score : [B, 1] quality score in (0, 1)
+        """
+        x = torch.cat([labels_mag, pred_mag], dim=1)  # [B, 2, F, T]
+        x = self.net(x)
+        x = self.pool(x)
+        x = self.head(x)
+        return x

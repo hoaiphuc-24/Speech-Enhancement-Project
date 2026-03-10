@@ -10,8 +10,10 @@ from .waveunet_loss import (
 )
 
 from .mossformergan_loss import (
-    si_snr_loss           as mossformergan_si_snr_loss,
-    discriminator_loss,
-    generator_loss,
-    mossformergan_g_total,
+    loss_mossformergan_se_16k,
+    stft,
+    istft,
+    power_compress,
+    power_uncompress,
+    batch_pesq,
 )

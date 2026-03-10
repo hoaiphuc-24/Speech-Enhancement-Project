@@ -3,9 +3,9 @@ src/loss/waveunet_loss.py
 Loss functions for WaveUnet (time-domain regression model).
 
 Losses:
-  - si_snr_loss     : Scale-Invariant SNR (primary metric for speech enhancement)
-  - ms_stft_loss    : Multi-Scale STFT (spectral convergence + log magnitude)
-  - waveunet_total  : Combined loss used in training loop
+  - si_snr_loss    : Scale-Invariant SNR (primary metric for speech enhancement)
+  - ms_stft_loss   : Multi-Scale STFT (spectral convergence + log magnitude)
+  - waveunet_total : Combined loss used in training loop
 """
 
 import torch
@@ -83,24 +83,23 @@ def ms_stft_loss(
 def waveunet_total(
     estimated    : torch.Tensor,
     target       : torch.Tensor,
-    l1_loss_fn,
-    l1_weight    : float,
     si_snr_weight: float,
     stft_weight  : float,
 ):
     """
-    Combined training loss for WaveUnet.
+    Combined training loss for WaveUnet (SI-SNR + Multi-Scale STFT).
 
+    Args:
+        estimated    : [B, T] enhanced waveform
+        target       : [B, T] clean reference waveform
+        si_snr_weight: weight for SI-SNR loss
+        stft_weight  : weight for Multi-Scale STFT loss
     Returns:
-        loss_total  : weighted sum of all losses
-        loss_l1     : L1 reconstruction loss
-        loss_si_snr : SI-SNR loss
-        loss_stft   : Multi-Scale STFT loss
+        loss_total  : weighted sum
+        loss_si_snr : SI-SNR loss component
+        loss_stft   : Multi-Scale STFT loss component
     """
-    loss_l1     = l1_loss_fn(estimated, target)
     loss_si_snr = si_snr_loss(estimated, target)
     loss_stft   = ms_stft_loss(estimated, target)
-    loss_total  = (l1_weight     * loss_l1
-                   + si_snr_weight * loss_si_snr
-                   + stft_weight   * loss_stft)
-    return loss_total, loss_l1, loss_si_snr, loss_stft
+    loss_total  = si_snr_weight * loss_si_snr + stft_weight * loss_stft
+    return loss_total, loss_si_snr, loss_stft

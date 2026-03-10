@@ -1,112 +1,241 @@
 """
 src/loss/mossformergan_loss.py
-Loss functions for MossFormerGAN (GAN-based speech enhancement model).
+Loss functions for MossFormerGAN (spectral-domain, STFT-based GAN speech enhancement).
 
-Losses:
-  - si_snr_loss          : Scale-Invariant SNR (shared with WaveUnet)
-  - discriminator_loss   : LSGAN discriminator loss
-  - generator_loss       : LSGAN generator adversarial loss
-  - mossformergan_g_total: Combined generator loss used in training loop
+Main entry point:
+  - loss_mossformergan_se_16k : Combined generator + discriminator loss in spectral domain
+
+Helpers:
+  - stft / istft             : Short-Time Fourier Transform wrappers
+  - power_compress / uncompress : Power-law compression on spectrograms
+  - batch_pesq               : Batch PESQ scoring for discriminator training target
 """
 
 import torch
+import torch.nn.functional as F
+import numpy as np
+
+try:
+    from pesq import pesq
+except ImportError:
+    pesq = None
+    print("[mossformergan_loss] WARNING: pesq package not found. PESQ scoring disabled.")
 
 
-def si_snr_loss(estimated: torch.Tensor, target: torch.Tensor, eps: float = 1e-8) -> torch.Tensor:
+# ---------------------------------------------------------------------------
+# STFT / iSTFT helpers
+# ---------------------------------------------------------------------------
+
+def stft(x, args, center=True):
     """
-    Scale-Invariant Signal-to-Noise Ratio Loss.
+    Compute STFT of a batch of waveforms.
 
     Args:
-        estimated : [B, T] enhanced waveform
-        target    : [B, T] clean reference waveform
+        x    : [B, T] waveform tensor
+        args : namespace with attributes n_fft, hop_length, win_length
+        center : whether to pad signal at center (matches librosa convention)
     Returns:
-        Scalar loss (negative SI-SNR, minimise to maximise SI-SNR)
+        spec : [B, 2, F, T] real/imag stacked spectrogram
     """
-    estimated = estimated - estimated.mean(dim=-1, keepdim=True)
-    target    = target    - target.mean(dim=-1, keepdim=True)
-    dot          = (estimated * target).sum(dim=-1, keepdim=True)
-    target_power = (target ** 2).sum(dim=-1, keepdim=True) + eps
-    s_target     = dot * target / target_power
-    e_noise      = estimated - s_target
-    si_snr = 10 * torch.log10(
-        (s_target ** 2).sum(dim=-1) / ((e_noise ** 2).sum(dim=-1) + eps) + eps
+    n_fft     = getattr(args, 'n_fft',      512)
+    hop_length = getattr(args, 'hop_length', 100)
+    win_length = getattr(args, 'win_length', 400)
+
+    window = torch.hann_window(win_length).to(x.device)
+
+    if center:
+        x = F.pad(x, (n_fft // 2, n_fft // 2))
+
+    spec = torch.stft(
+        x,
+        n_fft=n_fft,
+        hop_length=hop_length,
+        win_length=win_length,
+        window=window,
+        return_complex=True,
+    )  # [B, F, T]
+
+    real = spec.real.unsqueeze(1)  # [B, 1, F, T]
+    imag = spec.imag.unsqueeze(1)  # [B, 1, F, T]
+    return torch.cat([real, imag], dim=1)  # [B, 2, F, T]
+
+
+def istft(spec, args):
+    """
+    Compute iSTFT from [B, F, T] complex tensor.
+
+    Args:
+        spec : [B, F, T] complex tensor
+        args : namespace with attributes n_fft, hop_length, win_length
+    Returns:
+        x    : [B, T] waveform tensor
+    """
+    n_fft      = getattr(args, 'n_fft',      512)
+    hop_length = getattr(args, 'hop_length', 100)
+    win_length = getattr(args, 'win_length', 400)
+
+    window = torch.hann_window(win_length).to(spec.device)
+    return torch.istft(
+        spec,
+        n_fft=n_fft,
+        hop_length=hop_length,
+        win_length=win_length,
+        window=window,
     )
-    return -si_snr.mean()
 
 
-def discriminator_loss(disc_real_outputs, disc_generated_outputs):
+# ---------------------------------------------------------------------------
+# Power compression
+# ---------------------------------------------------------------------------
+
+def power_compress(spec, c=0.3):
     """
-    LSGAN Discriminator Loss.
-    Teaches the discriminator to output 1 for real audio, 0 for fake.
+    Power-law compression on magnitude of [B, 2, F, T] spectrogram.
+    Compresses loud components to improve perceptual quality of loss.
+    """
+    real = spec[:, 0, :, :]
+    imag = spec[:, 1, :, :]
+    mag  = torch.clamp(torch.sqrt(real**2 + imag**2 + 1e-9), min=1e-9)
+    mag_compressed = mag ** c
+    phase = torch.atan2(imag, real)
+    real_c = mag_compressed * torch.cos(phase)
+    imag_c = mag_compressed * torch.sin(phase)
+    return torch.stack([real_c, imag_c], dim=1)  # [B, 2, F, T]
+
+
+def power_uncompress(real, imag, c=0.3):
+    """
+    Invert power compression to reconstruct complex spectrogram.
 
     Args:
-        disc_real_outputs      : list of discriminator outputs on real audio
-        disc_generated_outputs : list of discriminator outputs on generated audio
+        real : [B, 1, F, T]
+        imag : [B, 1, F, T]
     Returns:
-        loss     : total discriminator loss (scalar)
-        r_losses : per-discriminator real losses (list)
-        g_losses : per-discriminator fake losses (list)
+        spec : [B, F, T] complex tensor
     """
-    loss = 0
-    r_losses, g_losses = [], []
-    for dr, dg in zip(disc_real_outputs, disc_generated_outputs):
-        r_loss = torch.mean((1 - dr) ** 2)
-        g_loss = torch.mean(dg ** 2)
-        loss  += (r_loss + g_loss)
-        r_losses.append(r_loss.item())
-        g_losses.append(g_loss.item())
-    return loss, r_losses, g_losses
+    mag_c = torch.clamp(torch.sqrt(real**2 + imag**2 + 1e-9), min=1e-9)
+    mag   = mag_c ** (1.0 / c)
+    phase = torch.atan2(imag, real)
+    real_u = mag * torch.cos(phase)
+    imag_u = mag * torch.sin(phase)
+    # squeeze channel dim → [B, F, T] complex
+    return torch.complex(real_u.squeeze(1), imag_u.squeeze(1))
 
 
-def generator_loss(disc_outputs):
+# ---------------------------------------------------------------------------
+# Batch PESQ
+# ---------------------------------------------------------------------------
+
+def batch_pesq(clean_list, enhanced_list, sr=16000):
     """
-    LSGAN Generator Adversarial Loss.
-    Teaches the generator to fool the discriminator (output close to 1 for fakes).
+    Compute mean PESQ score for a batch.
 
     Args:
-        disc_outputs : list of discriminator outputs on generated audio
+        clean_list    : list of np.ndarray clean waveforms
+        enhanced_list : list of np.ndarray enhanced waveforms
+        sr            : sample rate (default 16000)
     Returns:
-        loss       : total generator adversarial loss (scalar)
-        gen_losses : per-discriminator losses (list)
+        pesq_tensor : [B] float32 tensor of PESQ scores, or None on failure
     """
-    loss = 0
-    gen_losses = []
-    for dg in disc_outputs:
-        l = torch.mean((1 - dg) ** 2)
-        gen_losses.append(l)
-        loss += l
-    return loss, gen_losses
+    if pesq is None:
+        return None
+
+    scores = []
+    for ref, deg in zip(clean_list, enhanced_list):
+        try:
+            score = pesq(sr, ref, deg, 'wb')
+            # Normalize to [0, 1]: PESQ WB range is [-0.5, 4.5]
+            scores.append((score + 0.5) / 5.0)
+        except Exception:
+            scores.append(None)
+
+    if any(s is None for s in scores):
+        return None
+
+    return torch.FloatTensor(scores)
 
 
-def mossformergan_g_total(
-    enhanced_audio  : torch.Tensor,
-    clean_audio     : torch.Tensor,
-    disc_outputs,
-    l1_loss_fn,
-    l1_weight       : float,
-    si_snr_weight   : float,
-):
+# ---------------------------------------------------------------------------
+# Main loss function
+# ---------------------------------------------------------------------------
+
+def loss_mossformergan_se_16k(args, inputs, labels, out_list, c, discriminator, device):
     """
-    Combined Generator loss for MossFormerGAN:
-        loss_g = Adversarial + l1_weight * L1 + si_snr_weight * SI-SNR
+    Combined generator + discriminator loss for MossFormerGAN_SE_16K.
+    Operates in the spectral domain using STFT magnitude and RI components.
 
     Args:
-        enhanced_audio : [B, T] generator output
-        clean_audio    : [B, T] clean reference
-        disc_outputs   : discriminator outputs on enhanced audio (for adv loss)
-        l1_loss_fn     : nn.L1Loss instance
-        l1_weight      : weight for L1 reconstruction loss
-        si_snr_weight  : weight for SI-SNR loss
+        args          : namespace with n_fft, hop_length, win_length, batch_size
+        inputs        : noisy waveform (unused directly, kept for API consistency)
+        labels        : [B, T] clean reference waveforms
+        out_list      : [pred_real, pred_imag] each [B, 1, T, F] from generator
+        c             : amplitude scaling tensor [B] or scalar
+        discriminator : metric discriminator (labels_mag, pred_mag) → scalar score
+        device        : torch device
     Returns:
-        loss_g_total : combined generator loss
-        loss_g_fake  : adversarial component
-        loss_l1      : L1 reconstruction component
-        loss_si_snr  : SI-SNR component
+        (loss, discrim_loss_metric) or (None, None) on bad batch
     """
-    loss_g_fake, _ = generator_loss(disc_outputs)
-    loss_l1        = l1_loss_fn(enhanced_audio, clean_audio)
-    loss_si_snr    = si_snr_loss(enhanced_audio, clean_audio)
-    loss_g_total   = (loss_g_fake
-                      + l1_weight     * loss_l1
-                      + si_snr_weight * loss_si_snr)
-    return loss_g_total, loss_g_fake, loss_l1, loss_si_snr
+    one_labels = torch.ones(args.batch_size).to(device)
+
+    # Scale labels
+    labels = torch.transpose(labels, 0, 1)
+    labels = torch.transpose(labels * c, 0, 1)
+
+    # Generator output: permute [B,1,T,F] → [B,1,F,T]
+    pred_real = out_list[0].permute(0, 1, 3, 2)
+    pred_imag = out_list[1].permute(0, 1, 3, 2)
+    pred_mag  = torch.sqrt(pred_real**2 + pred_imag**2)
+
+    # Labels STFT → power compress
+    labels_spec = stft(labels, args, center=True).to(torch.float32)
+    labels_spec = power_compress(labels_spec)
+
+    labels_real = labels_spec[:, 0, :, :].unsqueeze(1)
+    labels_imag = labels_spec[:, 1, :, :].unsqueeze(1)
+    labels_mag  = torch.sqrt(labels_real**2 + labels_imag**2)
+
+    # Generator adversarial loss (fool discriminator → predict 1)
+    predict_fake_metric = discriminator(labels_mag, pred_mag)
+    gen_loss_GAN = F.mse_loss(predict_fake_metric.flatten(), one_labels.float())
+
+    # Spectral reconstruction losses
+    loss_mag = F.mse_loss(pred_mag,  labels_mag)
+    loss_ri  = F.mse_loss(pred_real, labels_real) + F.mse_loss(pred_imag, labels_imag)
+
+    # Time-domain loss via iSTFT
+    pred_spec_uncompress = power_uncompress(pred_real, pred_imag).squeeze(0) \
+        if pred_real.dim() == 4 else power_uncompress(pred_real, pred_imag)
+    # Reconstruct waveform
+    pred_spec_uncompress_full = power_uncompress(pred_real, pred_imag)  # [B, F, T] complex
+    pred_audio = istft(pred_spec_uncompress_full, args)
+
+    length     = min(pred_audio.size(-1), labels.size(-1))
+    pred_audio = pred_audio[..., :length]
+    labels     = labels[..., :length]
+    time_loss  = torch.mean(torch.abs(pred_audio - labels))
+
+    # Total generator loss
+    loss = 0.1 * loss_ri + 0.9 * loss_mag + 0.2 * time_loss + 0.05 * gen_loss_GAN
+
+    if torch.isnan(loss):
+        print('train loss is nan, skip this batch!')
+        return None, None
+
+    # PESQ scoring for discriminator target
+    pred_audio_list  = list(pred_audio.detach().cpu().numpy())
+    labels_audio_list = list(labels.cpu().numpy())
+    pesq_score = batch_pesq(labels_audio_list, pred_audio_list)
+
+    if pesq_score is not None:
+        pesq_score = pesq_score.to(device)
+        predict_enhance_metric = discriminator(labels_mag, pred_mag.detach())
+        predict_max_metric     = discriminator(labels_mag, labels_mag)
+        discrim_loss_metric = (
+            F.mse_loss(predict_max_metric.flatten(), one_labels) +
+            F.mse_loss(predict_enhance_metric.flatten(), pesq_score)
+        )
+    else:
+        print('train pesq score is None, skip this batch!')
+        return None, None
+
+    return loss, discrim_loss_metric

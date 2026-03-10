@@ -33,9 +33,9 @@ training:
 
 # Loss Weighting
 loss:
-  l1_weight: 1.0       # L1 Reconstruction Loss Weight
   si_snr_weight: 0.5   # SI-SNR Loss Weight
   stft_weight: 1.0     # Multi-Scale STFT Loss Weight
+
 
 # Distributed Training (DDP) Settings
 distributed:

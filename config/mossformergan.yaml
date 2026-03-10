@@ -31,10 +31,13 @@ training:
   log_dir: "runs/MossFormerGAN"
   scheduler_gamma: 0.999  # ExponentialLR decay factor
 
-# Loss Weighting
+# Loss Weighting (spectral-domain GAN loss)
 loss:
-  l1_weight: 45.0      # L1 Reconstruction Loss Weight
-  si_snr_weight: 1.0   # SI-SNR Loss Weight
+  # STFT parameters (must match training audio sample rate 16kHz)
+  n_fft: 512          # FFT size → 257 frequency bins
+  hop_length: 100     # Hop size (~6.25ms at 16kHz)
+  win_length: 400     # Window size (25ms at 16kHz)
+
 
 # Distributed Training (DDP) Settings
 distributed:

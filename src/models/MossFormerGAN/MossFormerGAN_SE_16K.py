@@ -1,13 +1,13 @@
 import torch
 from torch import nn
 from .generator import MossFormerGenerator
-from .discriminator import MultiScaleDiscriminator
+from .discriminator import MultiScaleDiscriminator, MetricDiscriminator
 
 class MossFormerGAN_SE_16K(nn.Module):
     """
     Main entry point for MossFormerGAN_SE_16K architectures.
-    Combines the Generator (MossFormer) and the MultiScaleDiscriminator
-    for End-to-End time-domain speech enhancement.
+    Combines the Generator (MossFormer) and the MetricDiscriminator
+    for spectral-domain PESQ-metric-based speech enhancement.
     """
     def __init__(self, 
                  in_channels=1, 
@@ -24,8 +24,8 @@ class MossFormerGAN_SE_16K(nn.Module):
             num_blocks=num_blocks
         )
         
-        # Discriminator for GAN objectives (Feature Matching, Real/Fake)
-        self.discriminator = MultiScaleDiscriminator()
+        # MetricDiscriminator: predicts quality score from magnitude spectrograms
+        self.discriminator = MetricDiscriminator()
         
     def forward(self, x):
         """
