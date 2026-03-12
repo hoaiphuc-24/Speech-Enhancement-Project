@@ -40,11 +40,13 @@ class MultiScaleDiscriminator(nn.Module):
     def __init__(self):
         super(MultiScaleDiscriminator, self).__init__()
         self.discriminators = nn.ModuleList([
-            ScaleDiscriminator(use_spectral_norm=True),  # Base scale — Spectral Norm
-            ScaleDiscriminator(use_spectral_norm=False), # 2x downsampled — Weight Norm
+            ScaleDiscriminator(use_spectral_norm=True), 
+            ScaleDiscriminator(use_spectral_norm=False),
+            ScaleDiscriminator(use_spectral_norm=False) 
         ])
         self.meanpools = nn.ModuleList([
             nn.AvgPool1d(4, 2, padding=2),
+            nn.AvgPool1d(4, 2, padding=2)
         ])
 
     def forward(self, y, y_hat):

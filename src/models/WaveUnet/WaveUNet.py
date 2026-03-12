@@ -120,7 +120,6 @@ class WaveUnet(nn.Module):
         return x
 
 if __name__ == '__main__':
-    # Test model (n_layers=10, channels_interval=20 — ~42% smaller than original)
     model = WaveUnet(in_channels=1, n_layers=10, channels_interval=20)
     total_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
     print(f"Total parameters: {total_params:,}")

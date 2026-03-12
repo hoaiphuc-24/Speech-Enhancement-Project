@@ -38,7 +38,7 @@ class MossFormerGAN_SE_16K(nn.Module):
 
 if __name__ == "__main__":
     # Test Network construction (hidden_channels=192, num_blocks=3 — ~48% smaller generator)
-    model = MossFormerGAN_SE_16K(in_channels=1, out_channels=1, hidden_channels=192, num_blocks=3)
+    model = MossFormerGAN_SE_16K(in_channels=1, out_channels=1, hidden_channels=256, num_blocks=4)
     gen_params = sum(p.numel() for p in model.generator.parameters() if p.requires_grad)
     disc_params = sum(p.numel() for p in model.discriminator.parameters() if p.requires_grad)
     print(f"Generator Parameters:     {gen_params:,}")
