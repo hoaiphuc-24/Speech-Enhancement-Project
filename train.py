@@ -217,8 +217,8 @@ def train(args):
                         f"loss_gan_g={loss_gan_g.item():.4f}  "
                         f"loss_gan_d={loss_gan_d.item():.4f}"
                     )
-                    writer.add_scalar('MossFormerGAN/loss_gan_g', loss_gan_g.item(), global_step)
-                    writer.add_scalar('MossFormerGAN/loss_gan_d', loss_gan_d.item(), global_step)
+                    writer.add_scalar('MossFormerGAN/Train/loss_gan_g', loss_gan_g.item(), global_step)
+                    writer.add_scalar('MossFormerGAN/Train/loss_gan_d', loss_gan_d.item(), global_step)
 
             else:
                 # ===========================================================
@@ -251,45 +251,87 @@ def train(args):
                         f"loss_sisnr={loss_sisnr.item():.4f}  "
                         f"loss_msstft={loss_msstft.item():.4f}"
                     )
-                    writer.add_scalar('WaveUnet/loss_total',  loss_total.item(),  global_step)
-                    writer.add_scalar('WaveUnet/loss_sisnr',  loss_sisnr.item(),  global_step)
-                    writer.add_scalar('WaveUnet/loss_msstft', loss_msstft.item(), global_step)
+                    writer.add_scalar('WaveUnet/Train/loss_total',  loss_total.item(),  global_step)
+                    writer.add_scalar('WaveUnet/Train/loss_sisnr',  loss_sisnr.item(),  global_step)
+                    writer.add_scalar('WaveUnet/Train/loss_msstft', loss_msstft.item(), global_step)
 
         epoch_time = time.time() - start_time
+        n_train = len(train_loader)
         if is_gan:
+            avg_g = running_g_loss / n_train
+            avg_d = running_d_loss / n_train
             print(
                 f"Epoch {epoch} done in {epoch_time:.2f}s  [MossFormerGAN]  "
-                f"avg loss_gan_g={running_g_loss/len(train_loader):.4f}  "
-                f"avg loss_gan_d={running_d_loss/len(train_loader):.4f}"
+                f"avg loss_gan_g={avg_g:.4f}  avg loss_gan_d={avg_d:.4f}"
             )
+            # Epoch-level average train losses
+            writer.add_scalar('MossFormerGAN/Train/avg_loss_gan_g', avg_g, epoch)
+            writer.add_scalar('MossFormerGAN/Train/avg_loss_gan_d', avg_d, epoch)
         else:
+            avg_total  = running_g_loss     / n_train
+            avg_sisnr  = running_sisnr_loss / n_train
+            avg_msstft = running_stft_loss  / n_train
             print(
                 f"Epoch {epoch} done in {epoch_time:.2f}s  [WaveUnet]  "
-                f"avg loss_total={running_g_loss/len(train_loader):.4f}  "
-                f"avg loss_sisnr={running_sisnr_loss/len(train_loader):.4f}  "
-                f"avg loss_msstft={running_stft_loss/len(train_loader):.4f}"
+                f"avg loss_total={avg_total:.4f}  "
+                f"avg loss_sisnr={avg_sisnr:.4f}  "
+                f"avg loss_msstft={avg_msstft:.4f}"
             )
+            # Epoch-level average train losses
+            writer.add_scalar('WaveUnet/Train/avg_loss_total',  avg_total,  epoch)
+            writer.add_scalar('WaveUnet/Train/avg_loss_sisnr',  avg_sisnr,  epoch)
+            writer.add_scalar('WaveUnet/Train/avg_loss_msstft', avg_msstft, epoch)
 
         # ---------------------
-        # Validation — SI-SNR as primary metric
+        # Validation — per-component losses + SI-SNR dB
         # ---------------------
         model.eval()
-        val_si_snr = 0.0
+        val_sisnr_sum  = 0.0
+        val_msstft_sum = 0.0
+        val_total_sum  = 0.0
+        n_val = len(val_loader)
+
         with torch.no_grad():
             for val_batch in val_loader:
                 v_noisy = val_batch[0].to(device)
                 v_clean = val_batch[1].to(device)
+
                 if is_gan:
                     v_enhanced = model.generator(v_noisy)
+                    # GAN val: only SI-SNR metric (no discriminator during eval)
+                    v_sisnr = waveunet_si_snr_loss(v_enhanced, v_clean).item()
+                    val_sisnr_sum += v_sisnr
                 else:
                     v_enhanced = model(v_noisy)
-                val_si_snr += waveunet_si_snr_loss(v_enhanced, v_clean).item()
+                    # WaveUnet val: full loss breakdown
+                    v_total, v_sisnr_t, v_msstft_t = waveunet_total(
+                        v_enhanced, v_clean,
+                        args.si_snr_weight, args.stft_weight
+                    )
+                    val_sisnr_sum  += v_sisnr_t.item()
+                    val_msstft_sum += v_msstft_t.item()
+                    val_total_sum  += v_total.item()
 
-        val_si_snr /= len(val_loader)
-        # SI-SNR loss is negative, so actual SI-SNR (dB) = -val_si_snr
-        current_si_snr_db = -val_si_snr
-        print(f"Validation — SI-SNR: {current_si_snr_db:.2f} dB")
-        writer.add_scalar('Validation/SI-SNR_dB', current_si_snr_db, epoch)
+        val_avg_sisnr  = val_sisnr_sum  / n_val
+        val_avg_msstft = val_msstft_sum / n_val
+        val_avg_total  = val_total_sum  / n_val
+        # loss_sisnr = -SI-SNR  →  actual SI-SNR dB = -loss
+        current_si_snr_db = -val_avg_sisnr
+
+        if is_gan:
+            print(f"Validation [MossFormerGAN] — SI-SNR: {current_si_snr_db:.2f} dB")
+            writer.add_scalar('MossFormerGAN/Val/si_snr_db', current_si_snr_db, epoch)
+        else:
+            print(
+                f"Validation [WaveUnet] — SI-SNR: {current_si_snr_db:.2f} dB  "
+                f"val_loss_total={val_avg_total:.4f}  "
+                f"val_loss_sisnr={val_avg_sisnr:.4f}  "
+                f"val_loss_msstft={val_avg_msstft:.4f}"
+            )
+            writer.add_scalar('WaveUnet/Val/si_snr_db',    current_si_snr_db, epoch)
+            writer.add_scalar('WaveUnet/Val/loss_total',   val_avg_total,     epoch)
+            writer.add_scalar('WaveUnet/Val/loss_sisnr',   val_avg_sisnr,     epoch)
+            writer.add_scalar('WaveUnet/Val/loss_msstft',  val_avg_msstft,    epoch)
 
         # ---------------------
         # Save Best Model
@@ -319,7 +361,8 @@ def train(args):
             scheduler_d.step()
         current_lr = scheduler_g.get_last_lr()[0]
         print(f"LR updated — lr_g: {current_lr:.2e}")
-        writer.add_scalar('Training/LR_G', current_lr, epoch)
+        lr_tag = 'MossFormerGAN/LR' if is_gan else 'WaveUnet/LR'
+        writer.add_scalar(lr_tag, current_lr, epoch)
 
 
 
