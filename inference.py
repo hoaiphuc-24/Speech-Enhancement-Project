@@ -1,125 +1,168 @@
+"""
+inference.py — Speech Enhancement Inference
+==============================================
+Load model từ experiments/WaveUnet/best_model.pt và chạy inference
+trên từng file noisy WAV, kết quả lưu vào thư mục tests/.
+
+Cách dùng:
+  # Chạy trên 1 file:
+  python inference.py --input data/noisy_testset_wav/p232_001.wav
+
+  # Chạy trên toàn bộ thư mục noisy:
+  python inference.py --input_dir data/noisy_testset_wav
+
+  # Chỉ định model / output dir khác:
+  python inference.py --input_dir data/noisy_testset_wav \\
+                      --model experiments/WaveUnet/best_model.pt \\
+                      --output_dir tests
+"""
+
 import os
+import glob
 import argparse
 import numpy as np
 import torch
 import soundfile as sf
 import librosa
 
-# ============================================================
-# Inference script — Speech Enhancement
-# Usage:
-#   python inference.py --model experiments/WaveUnet/best_model.pt
-#                       --input  path/to/noisy.wav
-#                       --output path/to/enhanced.wav
-# ============================================================
-
 EPS = 1e-8
 
+# ─── Mặc định ────────────────────────────────────────────────────────────────
+DEFAULT_MODEL     = "experiments/WaveUnet/best_model.pt"
+DEFAULT_INPUT_DIR = "data/noisy_testset_wav"
+DEFAULT_OUTPUT_DIR = "tests"
+# ─────────────────────────────────────────────────────────────────────────────
+
+
 def load_model(model_path: str, device: torch.device):
-    """Load best_model.pt và khởi tạo model tương ứng."""
-    checkpoint = torch.load(model_path, map_location=device)
+    """Load checkpoint và khởi tạo WaveUnet / MossFormerGAN tương ứng."""
+    if not os.path.isfile(model_path):
+        raise FileNotFoundError(f"Không tìm thấy file model: {model_path}")
 
-    args_dict = checkpoint['args']
-    network   = args_dict['network']
+    checkpoint = torch.load(model_path, map_location=device, weights_only=False)
 
-    if network == 'WaveUnet':
+    args_dict = checkpoint["args"]
+    network   = args_dict["network"]
+
+    if network == "WaveUnet":
         from src.models.WaveUnet.WaveUNet import WaveUnet
         model = WaveUnet(
-            in_channels      = args_dict.get('in_channels', 1),
-            n_layers         = args_dict.get('num_layers', 12),
-            channels_interval= args_dict.get('channels_interval', 24),
+            in_channels       = args_dict.get("in_channels", 1),
+            n_layers          = args_dict.get("num_layers", 12),
+            channels_interval = args_dict.get("channels_interval", 24),
         )
-        model.load_state_dict(checkpoint['model_state_dict'])
+        model.load_state_dict(checkpoint["model_state_dict"])
 
-    elif network == 'MossFormerGAN_SE_16K':
+    elif network == "MossFormerGAN_SE_16K":
         from src.models.MossFormerGAN import MossFormerGAN_SE_16K
         model = MossFormerGAN_SE_16K(
-            in_channels     = args_dict.get('in_channels', 1),
-            out_channels    = args_dict.get('out_channels', 1),
-            hidden_channels = args_dict.get('hidden_channels', 256),
-            num_blocks      = args_dict.get('num_blocks', 4),
+            in_channels     = args_dict.get("in_channels", 1),
+            out_channels    = args_dict.get("out_channels", 1),
+            hidden_channels = args_dict.get("hidden_channels", 256),
+            num_blocks      = args_dict.get("num_blocks", 4),
         )
-        model.generator.load_state_dict(checkpoint['generator_state_dict'])
-        # Use only generator for inference
+        model.generator.load_state_dict(checkpoint["generator_state_dict"])
         model = model.generator
 
     else:
-        raise ValueError(f"Unknown network type: {network}")
+        raise ValueError(f"Network không xác định: {network}")
 
-    model.to(device)
-    model.eval()
+    model.to(device).eval()
 
-    print(f"Loaded '{network}' from epoch {checkpoint['epoch']} "
-          f"(best val SI-SNR: {checkpoint['si_snr_db']:.2f} dB)")
+    sr = args_dict.get("sampling_rate", 16000)
+    print(f"[✓] Đã load '{network}' — epoch {checkpoint['epoch']} "
+          f"| best val SI-SNR: {checkpoint['si_snr_db']:.2f} dB "
+          f"| SR: {sr} Hz")
     return model, args_dict
 
 
-def audio_norm(x):
-    """Normalize audio to a fixed RMS level (same as training)."""
+def audio_norm(x: np.ndarray):
+    """Chuẩn hóa RMS về -25 dBFS (giống training)."""
     rms = (x ** 2).mean() ** 0.5
     scalar = 10 ** (-25 / 20) / (rms + EPS)
     x = x * scalar
-    pow_x = x ** 2
-    avg_pow_x = pow_x.mean()
-    rmsx = pow_x[pow_x > avg_pow_x].mean() ** 0.5
+    avg_pow = (x ** 2).mean()
+    rmsx = ((x ** 2)[x ** 2 > avg_pow].mean()) ** 0.5
     scalarx = 10 ** (-25 / 20) / (rmsx + EPS)
     x = x * scalarx
-    return x, 1.0 / (scalar * scalarx + EPS)
+    inv_scalar = 1.0 / (scalar * scalarx + EPS)
+    return x, inv_scalar
 
 
-def enhance(model, input_path: str, output_path: str,
-            sampling_rate: int, device: torch.device):
-    """
-    Đọc file noisy, chạy qua model, lưu file enhanced.
-    Hỗ trợ file dài tùy ý (không giới hạn độ dài).
-    """
-    # --- Load audio ---
-    data, fs = sf.read(input_path)
-    if len(data.shape) > 1:          # stereo → mono
+def enhance_file(model, input_path: str, output_path: str,
+                 sampling_rate: int, device: torch.device) -> None:
+    """Đọc file noisy → model → lưu file enhanced."""
+    # Đọc audio
+    try:
+        data, fs = sf.read(input_path)
+    except Exception as e:
+        print(f"  [!] Bỏ qua '{input_path}': {e}")
+        return
+
+    if data.ndim > 1:          # stereo → mono
         data = data[:, 0]
     if fs != sampling_rate:
         data = librosa.resample(data, orig_sr=fs, target_sr=sampling_rate)
-        print(f"  Resampled {fs} Hz → {sampling_rate} Hz")
 
     data = data.astype(np.float32)
-    data_norm, scalar = audio_norm(data)
+    data_norm, inv_scalar = audio_norm(data)
 
-    # --- Inference ---
+    # Inference
     with torch.no_grad():
         x = torch.FloatTensor(data_norm).unsqueeze(0).to(device)  # [1, T]
-        enhanced = model(x)                                         # [1, T]
-        enhanced = enhanced.squeeze(0).cpu().numpy()                # [T]
+        out = model(x)                                              # [1, T] hoặc [1, 1, T]
+        out = out.squeeze().cpu().numpy()                           # [T]
 
-    # --- Restore original scale ---
-    enhanced = enhanced * scalar
+    # Khôi phục biên độ gốc
+    enhanced = out * inv_scalar
 
-    # --- Save output ---
-    os.makedirs(os.path.dirname(output_path) or '.', exist_ok=True)
+    # Lưu kết quả
+    os.makedirs(os.path.dirname(output_path) if os.path.dirname(output_path) else ".", exist_ok=True)
     sf.write(output_path, enhanced, sampling_rate)
-    print(f"  Saved enhanced audio → {output_path}")
+    print(f"  [✓] {os.path.basename(input_path)}  →  {output_path}")
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Speech Enhancement Inference")
-    parser.add_argument('--model',  type=str, required=True,
-                        help="Path to best_model.pt (e.g. experiments/WaveUnet/best_model.pt)")
-    parser.add_argument('--input',  type=str, required=True,
-                        help="Path to noisy input .wav file")
-    parser.add_argument('--output', type=str, default='enhanced.wav',
-                        help="Path to save the enhanced .wav file (default: enhanced.wav)")
-    parser.add_argument('--sr',     type=int, default=16000,
-                        help="Sampling rate (default: 16000)")
+    parser = argparse.ArgumentParser(description="Speech Enhancement Inference — WaveUnet / MossFormerGAN")
+    parser.add_argument("--model",      type=str, default=DEFAULT_MODEL,
+                        help=f"Path đến best_model.pt (mặc định: {DEFAULT_MODEL})")
+    parser.add_argument("--input",      type=str, default=None,
+                        help="Path đến 1 file noisy WAV (không bắt buộc nếu dùng --input_dir)")
+    parser.add_argument("--input_dir",  type=str, default=DEFAULT_INPUT_DIR,
+                        help=f"Thư mục chứa các file noisy WAV (mặc định: {DEFAULT_INPUT_DIR})")
+    parser.add_argument("--output_dir", type=str, default=DEFAULT_OUTPUT_DIR,
+                        help=f"Thư mục đầu ra (mặc định: {DEFAULT_OUTPUT_DIR})")
+    parser.add_argument("--sr",         type=int, default=16000,
+                        help="Sampling rate fallback nếu checkpoint không lưu (mặc định: 16000)")
     args = parser.parse_args()
 
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Device: {device}")
 
+    # Load model
     model, args_dict = load_model(args.model, device)
-    sampling_rate = args_dict.get('sampling_rate', args.sr)
+    sampling_rate = args_dict.get("sampling_rate", args.sr)
 
-    enhance(model, args.input, args.output, sampling_rate, device)
-    print("Done!")
+    # Xây dựng danh sách file cần xử lý
+    if args.input:
+        # chế độ đơn file
+        wav_files = [args.input]
+    else:
+        # chế độ thư mục
+        wav_files = sorted(glob.glob(os.path.join(args.input_dir, "*.wav")))
+        if not wav_files:
+            print(f"[!] Không tìm thấy file WAV nào trong: {args.input_dir}")
+            return
+
+    print(f"\nXử lý {len(wav_files)} file(s) → '{args.output_dir}/' ...\n")
+
+    for wav_path in wav_files:
+        basename  = os.path.basename(wav_path)
+        out_path  = os.path.join(args.output_dir, basename)
+        enhance_file(model, wav_path, out_path, sampling_rate, device)
+
+    print(f"\n[Done] Kết quả đã lưu vào '{args.output_dir}/'")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

@@ -4,6 +4,8 @@ data/clean_trainset_28spk_wav/
 data/noisy_testset_wav/
 data/noisy_trainset_28spk_wav/
 .env
+runs/WaveUnet
+runs/MossFormerGAN
 
 # __pycache__
 __pycache__/

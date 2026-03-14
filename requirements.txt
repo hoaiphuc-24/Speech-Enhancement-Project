@@ -16,3 +16,11 @@ numpy
 # Config & Logging
 PyYAML
 tensorboard
+
+
+
+
+
+# python inference.py --model experiments/WaveUnet/best_model.pt \
+#                     --input_dir data/noisy_testset_wav \
+#                     --output_dir tests

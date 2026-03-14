@@ -95,7 +95,7 @@ class WaveUnet(nn.Module):
 
         for i in range(self.n_layers):
             # Upsample using linear interpolation
-            x = F.interpolate(x, scale_factor=2, mode="linear", align_corners=True)
+            x = F.interpolate(x, scale_factor=2, mode="linear", align_corners=False)
             
             # Crop or pad to match the skip connection size if there are length mismatches due to decimation/interpolation
             skip_length = skips[-i - 1].shape[2]
