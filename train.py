@@ -14,6 +14,7 @@ from src.loss.waveunet_loss      import si_snr_loss as waveunet_si_snr_loss, wav
 from src.loss.mossformergan_loss import loss_mossformergan_se_16k, stft, power_compress
 
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+print(device)
 def get_args():
     parser = argparse.ArgumentParser(description="Speech Enhancement Training")
     parser.add_argument('--config', type=str)
@@ -81,8 +82,6 @@ def train(args):
     # Dataloader implementation requires a single 'args' namespace.
     _, train_loader = get_dataloader(args, 'train')
     _, val_loader = get_dataloader(args, 'val')
-    print(train_loader)
-    print(val_loader)
     # Initialize Model
     print(f"Initializing Network: {args.network}")
     if args.network == "MossFormerGAN_SE_16K":
@@ -106,7 +105,6 @@ def train(args):
         raise ValueError(f"Unsupported network: {args.network}")
 
     model.to(device)
-
     # Optimizers
     if is_gan:
         optim_g = optim.AdamW(model.generator.parameters(), lr=args.lr_g, betas=(0.8, 0.99))
@@ -142,112 +140,135 @@ def train(args):
     save_dir = os.path.join('experiments', args.network)
     os.makedirs(save_dir, exist_ok=True)
     best_model_path = os.path.join(save_dir, 'best_model.pt')
-    
+
     for epoch in range(1, args.epochs + 1):
         model.train()
         start_time = time.time()
-        
-        running_g_loss    = 0.0
-        running_d_loss    = 0.0
-        running_sisnr_loss = 0.0
-        running_stft_loss  = 0.0
+
+        # ── Per-epoch running accumulators ─────────────────────────────────
+        # MossFormerGAN: generator loss + discriminator loss
+        # WaveUnet     : total loss + SI-SNR component + MS-STFT component
+        running_g_loss     = 0.0
+        running_d_loss     = 0.0   # GAN only
+        running_sisnr_loss = 0.0   # WaveUnet only
+        running_stft_loss  = 0.0   # WaveUnet only
 
         for batch_idx, batch_data in enumerate(train_loader):
-            # Dataloader currently yields (inputs, labels) or (inputs, labels, fbanks)
-            noisy_audio = batch_data[0].to(device)   # [Batch, Time]
-            clean_audio = batch_data[1].to(device)   # [Batch, Time]
+            noisy_audio = batch_data[0].to(device)   # [B, T]
+            clean_audio = batch_data[1].to(device)   # [B, T]
 
             if is_gan:
-                # -------------------------------------------------------
-                # MossFormerGAN — spectral-domain loss (loss_mossformergan_se_16k)
-                # Generator outputs waveform → convert to spectrogram here
-                # -------------------------------------------------------
+                # ===========================================================
+                # MossFormerGAN training
+                #   loss_gan_g : combined spectral generator loss
+                #                (RI + magnitude + time-domain + adversarial)
+                #   loss_gan_d : discriminator metric loss (PESQ-based MSE)
+                # ===========================================================
 
-                # 1. Forward pass: generator produces enhanced waveform
-                enhanced_waveform = model.generator(noisy_audio)  # [B, T]
+                # 1. Generator forward → enhanced waveform
+                enhanced_waveform = model.generator(noisy_audio)       # [B, T]
 
-                # 2. STFT → [B, 2, F, T], then unsqueeze channel → [B, 1, T, F] (permuted)
-                #    loss fn expects out_list[i].permute(0,1,3,2) → [B,1,F,T]
+                # 2. Waveform → power-compressed spectrogram
+                #    out_list[i] shape: [B, 1, T, F]  (loss fn permutes back to [B,1,F,T])
                 enhanced_spec = stft(enhanced_waveform, args, center=True).to(torch.float32)
-                enhanced_spec = power_compress(enhanced_spec)        # [B, 2, F, T]
-                pred_real = enhanced_spec[:, 0, :, :].unsqueeze(1)  # [B, 1, F, T]
-                pred_imag = enhanced_spec[:, 1, :, :].unsqueeze(1)  # [B, 1, F, T]
-                # Permute to match expected input [B, 1, T, F] (loss will permute back)
+                enhanced_spec = power_compress(enhanced_spec)           # [B, 2, F, T]
+                pred_real = enhanced_spec[:, 0, :, :].unsqueeze(1)     # [B, 1, F, T]
+                pred_imag = enhanced_spec[:, 1, :, :].unsqueeze(1)     # [B, 1, F, T]
                 out_list = [
-                    pred_real.permute(0, 1, 3, 2),  # [B, 1, T, F]
-                    pred_imag.permute(0, 1, 3, 2),  # [B, 1, T, F]
+                    pred_real.permute(0, 1, 3, 2),                     # [B, 1, T, F]
+                    pred_imag.permute(0, 1, 3, 2),
                 ]
 
-                # 3. amplitude scale factor c = 1 (no external scaling)
+                # 3. Scale factor (identity)
                 c = torch.ones(clean_audio.shape[0]).to(device)
 
-                # 4. Compute generator + discriminator loss
+                # 4. Compute GAN losses
                 optim_g.zero_grad()
                 optim_d.zero_grad()
-                loss_g_total, loss_d = loss_mossformergan_se_16k(
+                loss_gan_g, loss_gan_d = loss_mossformergan_se_16k(
                     args, noisy_audio, clean_audio, out_list, c,
                     model.discriminator, device
                 )
 
-                if loss_g_total is None:
+                if loss_gan_g is None:
                     # Batch skipped (NaN or PESQ failure)
-                    loss_d_item    = 0.0
-                    loss_stft_item = 0.0
-                    loss_g_total = torch.tensor(0.0, device=device, requires_grad=False)
-                    loss_d       = torch.tensor(0.0, device=device, requires_grad=False)
-                    loss_si_snr  = torch.tensor(0.0, device=device)
+                    loss_gan_g = torch.tensor(0.0, device=device, requires_grad=False)
+                    loss_gan_d = torch.tensor(0.0, device=device, requires_grad=False)
                 else:
-                    # 5. Backprop generator
-                    loss_g_total.backward(retain_graph=True)
+                    # 5. Generator backprop
+                    loss_gan_g.backward(retain_graph=True)  # retain_graph: discriminator reuses activations
+                    torch.nn.utils.clip_grad_norm_(model.generator.parameters(), max_norm=1.0)
                     optim_g.step()
 
-                    # 6. Backprop discriminator
-                    loss_d.backward()
+                    # 6. Discriminator backprop
+                    loss_gan_d.backward()
+                    torch.nn.utils.clip_grad_norm_(model.discriminator.parameters(), max_norm=1.0)
                     optim_d.step()
 
-                    running_d_loss += loss_d.item()
-                    loss_d_item    = loss_d.item()
-                    loss_stft_item = 0.0
-                    loss_si_snr = torch.tensor(0.0, device=device)
+                    running_d_loss += loss_gan_d.item()
+
+                running_g_loss += loss_gan_g.item()
+                global_step += 1
+
+                if batch_idx % 100 == 0:
+                    print(
+                        f"Epoch [{epoch}/{args.epochs}] Step [{batch_idx}/{len(train_loader)}] "
+                        f"[MossFormerGAN] "
+                        f"loss_gan_g={loss_gan_g.item():.4f}  "
+                        f"loss_gan_d={loss_gan_d.item():.4f}"
+                    )
+                    writer.add_scalar('MossFormerGAN/loss_gan_g', loss_gan_g.item(), global_step)
+                    writer.add_scalar('MossFormerGAN/loss_gan_d', loss_gan_d.item(), global_step)
+
             else:
-                # ---------------------
-                # Train WaveUnet — via waveunet_total
-                # ---------------------
+                # ===========================================================
+                # WaveUnet training
+                #   loss_sisnr  : Scale-Invariant SNR loss (primary metric)
+                #   loss_msstft : Multi-Scale STFT loss (spectral convergence)
+                #   loss_total  : si_snr_weight*loss_sisnr + stft_weight*loss_msstft
+                # ===========================================================
                 optim_g.zero_grad()
-                enhanced_audio = model(noisy_audio)   # [B, T]
-                loss_g_total, loss_si_snr, loss_stft = waveunet_total(
+                enhanced_audio = model(noisy_audio)                    # [B, T]
+
+                loss_total, loss_sisnr, loss_msstft = waveunet_total(
                     enhanced_audio, clean_audio,
                     args.si_snr_weight, args.stft_weight
                 )
-                loss_g_total.backward()
+                loss_total.backward()
+                torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
                 optim_g.step()
-                loss_d_item    = 0.0
-                loss_stft_item = loss_stft.item()
-                running_stft_loss += loss_stft_item
 
-            # Logging
-            running_g_loss    += loss_g_total.item()
-            running_sisnr_loss += loss_si_snr.item()
-            global_step += 1
+                running_g_loss     += loss_total.item()
+                running_sisnr_loss += loss_sisnr.item()
+                running_stft_loss  += loss_msstft.item()
+                global_step += 1
 
-            if batch_idx % 10 == 0:
-                print(f"Epoch [{epoch}/{args.epochs}], Step [{batch_idx}/{len(train_loader)}], "
-                      f"Loss G: {loss_g_total.item():.4f}, Loss D: {loss_d_item:.4f}, "
-                      f"SI-SNR: {loss_si_snr.item():.4f}, STFT: {loss_stft_item:.4f}")
+                if batch_idx % 100 == 0:
+                    print(
+                        f"Epoch [{epoch}/{args.epochs}] Step [{batch_idx}/{len(train_loader)}] "
+                        f"[WaveUnet] "
+                        f"loss_total={loss_total.item():.4f}  "
+                        f"loss_sisnr={loss_sisnr.item():.4f}  "
+                        f"loss_msstft={loss_msstft.item():.4f}"
+                    )
+                    writer.add_scalar('WaveUnet/loss_total',  loss_total.item(),  global_step)
+                    writer.add_scalar('WaveUnet/loss_sisnr',  loss_sisnr.item(),  global_step)
+                    writer.add_scalar('WaveUnet/loss_msstft', loss_msstft.item(), global_step)
 
-                writer.add_scalar('Training/Loss_G',      loss_g_total.item(), global_step)
-                writer.add_scalar('Training/Loss_SI-SNR', loss_si_snr.item(),  global_step)
-                if is_gan:
-                    writer.add_scalar('Training/Loss_D', loss_d_item, global_step)
-                else:
-                    writer.add_scalar('Training/Loss_STFT', loss_stft_item, global_step)
-
-        
         epoch_time = time.time() - start_time
-        print(f"Epoch {epoch} Completed in {epoch_time:.2f}s."
-              f"\nAvg G Loss: {running_g_loss/len(train_loader):.4f}, "
-              f"Avg D Loss: {running_d_loss/len(train_loader):.4f}, "
-              f"Avg SI-SNR Loss: {running_sisnr_loss/len(train_loader):.4f}")
+        if is_gan:
+            print(
+                f"Epoch {epoch} done in {epoch_time:.2f}s  [MossFormerGAN]  "
+                f"avg loss_gan_g={running_g_loss/len(train_loader):.4f}  "
+                f"avg loss_gan_d={running_d_loss/len(train_loader):.4f}"
+            )
+        else:
+            print(
+                f"Epoch {epoch} done in {epoch_time:.2f}s  [WaveUnet]  "
+                f"avg loss_total={running_g_loss/len(train_loader):.4f}  "
+                f"avg loss_sisnr={running_sisnr_loss/len(train_loader):.4f}  "
+                f"avg loss_msstft={running_stft_loss/len(train_loader):.4f}"
+            )
 
         # ---------------------
         # Validation — SI-SNR as primary metric

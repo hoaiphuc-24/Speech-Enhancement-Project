@@ -3,16 +3,16 @@
 # ============================================================
 
 # Deep Learning Framework
-torch==2.5.1
-torchaudio==2.5.1
+torch
+torchaudio
 
 # Audio Processing
-soundfile==0.13.1
-librosa==0.11.0
+soundfile
+librosa
 
 # Numerical Computing
-numpy==1.26.4
+numpy
 
 # Config & Logging
-PyYAML==6.0.2
-tensorboard==2.20.0
+PyYAML
+tensorboard
