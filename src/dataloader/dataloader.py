@@ -276,7 +276,7 @@ def get_dataloader(args, data_type):
     ) if hasattr(args, 'distributed') and args.distributed else None
 
     if hasattr(args, 'network'):
-        if args.network in ['MossFormerGAN_SE_16K', 'WaveUnet']:
+        if args.network in ['DCCRN', 'WaveUnet']:
             collate_fn = collate_fn_2x_wavs
         else:
             print(f'in dataloader, please specify a correct network type using args.network!')

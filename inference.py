@@ -52,26 +52,24 @@ def load_model(model_path: str, device: torch.device):
             channels_interval = args_dict.get("channels_interval", 24),
         )
         model.load_state_dict(checkpoint["model_state_dict"])
-
-    elif network == "MossFormerGAN_SE_16K":
-        from src.models.MossFormerGAN import MossFormerGAN_SE_16K
-        model = MossFormerGAN_SE_16K(
-            in_channels     = args_dict.get("in_channels", 1),
-            out_channels    = args_dict.get("out_channels", 1),
-            hidden_channels = args_dict.get("hidden_channels", 256),
-            num_blocks      = args_dict.get("num_blocks", 4),
+    elif network == "DCCRN":
+        from src.models.DCCRN.dccrn import DCCRN
+        model = DCCRN(
+            mode       = args_dict.get("mode", "DCCRN-E"),
+            causal     = args_dict.get("causal", True),
+            n_fft      = args_dict.get("n_fft", 512),
+            hop_length = args_dict.get("hop_length", 100),
+            win_length = args_dict.get("win_length", 400),
         )
-        model.generator.load_state_dict(checkpoint["generator_state_dict"])
-        model = model.generator
-
+        model.load_state_dict(checkpoint["model_state_dict"])
     else:
         raise ValueError(f"Network không xác định: {network}")
 
     model.to(device).eval()
 
     sr = args_dict.get("sampling_rate", 16000)
-    print(f"[✓] Đã load '{network}' — epoch {checkpoint['epoch']} "
-          f"| best val SI-SNR: {checkpoint['si_snr_db']:.2f} dB "
+    print(f"[✓] Đã load '{network}' — epoch {checkpoint.get('epoch', 'N/A')} "
+          f"| best val SI-SNR: {checkpoint.get('si_snr_db', 0.0):.2f} dB "
           f"| SR: {sr} Hz")
     return model, args_dict
 
@@ -110,7 +108,10 @@ def enhance_file(model, input_path: str, output_path: str,
     # Inference
     with torch.no_grad():
         x = torch.FloatTensor(data_norm).unsqueeze(0).to(device)  # [1, T]
-        out = model(x)                                              # [1, T] hoặc [1, 1, T]
+        if model.__class__.__name__ == "DCCRN":
+            out, _, _ = model(x)
+        else:
+            out = model(x)                                              # [1, T] hoặc [1, 1, T]
         out = out.squeeze().cpu().numpy()                           # [T]
 
     # Khôi phục biên độ gốc
@@ -123,7 +124,7 @@ def enhance_file(model, input_path: str, output_path: str,
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Speech Enhancement Inference — WaveUnet / MossFormerGAN")
+    parser = argparse.ArgumentParser(description="Speech Enhancement Inference — WaveUnet / DCCRN")
     parser.add_argument("--model",      type=str, default=DEFAULT_MODEL,
                         help=f"Path đến best_model.pt (mặc định: {DEFAULT_MODEL})")
     parser.add_argument("--input",      type=str, default=None,
