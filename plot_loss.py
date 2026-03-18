@@ -2,6 +2,7 @@
 plot_loss.py — Vẽ biểu đồ train/val loss từ TensorBoard event files.
 Usage:
     python plot_loss.py --logdir runs/WaveUnet
+    python plot_loss.py --logdir runs/DCCRN
     python plot_loss.py --logdir runs/MossFormerGAN
     python plot_loss.py --logdir runs/WaveUnet --out waveunet_loss.png
 """
@@ -33,17 +34,19 @@ WAVEUNET_VAL_SISNR = [
     ('WaveUnet/Val/si_snr_db', 'Val SI-SNR (dB)', 'tab:purple'),
 ]
 
-MOSSFORMERGAN_TRAIN_STEP = [
-    ('MossFormerGAN/Train/loss_gan_g', 'train loss_g', 'tab:blue'),
-    ('MossFormerGAN/Train/loss_gan_d', 'train loss_d', 'tab:red'),
+DCCRN_TRAIN_STEP = [
+    ('DCCRN/Train/loss_sisnr',  'train loss_sisnr',  'tab:orange'),
 ]
-MOSSFORMERGAN_TRAIN_EPOCH = [
-    ('MossFormerGAN/Train/avg_loss_gan_g', 'avg train loss_g', 'tab:blue'),
-    ('MossFormerGAN/Train/avg_loss_gan_d', 'avg train loss_d', 'tab:red'),
+DCCRN_TRAIN_EPOCH = [
+    ('DCCRN/Train/avg_loss_sisnr',  'avg train sisnr',  'tab:orange'),
 ]
-MOSSFORMERGAN_VAL_SISNR = [
-    ('MossFormerGAN/Val/si_snr_db', 'Val SI-SNR (dB)', 'tab:purple'),
+DCCRN_VAL_EPOCH = [
+    ('DCCRN/Val/loss_sisnr',  'val loss_sisnr',  'tab:orange'),
 ]
+DCCRN_VAL_SISNR = [
+    ('DCCRN/Val/si_snr_db', 'Val SI-SNR (dB)', 'tab:purple'),
+]
+
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
@@ -92,24 +95,31 @@ def main():
 
     is_waveunet     = any('WaveUnet'      in t for t in avail)
     is_mossformergan = any('MossFormerGAN' in t for t in avail)
+    is_dccrn        = any('DCCRN'         in t for t in avail)
 
-    if is_waveunet:
-        # ── WaveUnet: 4 panels ────────────────────────────────────────────
+    if is_waveunet or is_dccrn:
+        prefix = 'WaveUnet' if is_waveunet else 'DCCRN'
+        TRAIN_STEP = WAVEUNET_TRAIN_STEP if is_waveunet else DCCRN_TRAIN_STEP
+        TRAIN_EPOCH = WAVEUNET_TRAIN_EPOCH if is_waveunet else DCCRN_TRAIN_EPOCH
+        VAL_EPOCH = WAVEUNET_VAL_EPOCH if is_waveunet else DCCRN_VAL_EPOCH
+        VAL_SISNR = WAVEUNET_VAL_SISNR if is_waveunet else DCCRN_VAL_SISNR
+
+        # ── WaveUnet/DCCRN: 4 panels ────────────────────────────────────────────
         #  [0] step-level train loss  [1] epoch avg train vs val loss
         #  [2] val components         [3] val SI-SNR dB
         fig, axes = plt.subplots(2, 2, figsize=(14, 9))
-        fig.suptitle(f'WaveUnet — {os.path.basename(args.logdir)}', fontsize=13, fontweight='bold')
+        fig.suptitle(f'{prefix} — {os.path.basename(args.logdir)}', fontsize=13, fontweight='bold')
 
-        plot_panel(axes[0, 0], ea, WAVEUNET_TRAIN_STEP,  'Train Loss (per step)')
-        plot_panel(axes[0, 1], ea, WAVEUNET_TRAIN_EPOCH, 'Avg Train Loss (per epoch)')
+        plot_panel(axes[0, 0], ea, TRAIN_STEP,  'Train Loss (per step)')
+        plot_panel(axes[0, 1], ea, TRAIN_EPOCH, 'Avg Train Loss (per epoch)')
 
         # Val components panel: overlay avg_train and val on same axes
-        for tag, label, color in WAVEUNET_TRAIN_EPOCH:
+        for tag, label, color in TRAIN_EPOCH:
             steps, values = load(ea, tag)
             if steps:
                 axes[1, 0].plot(steps, values, label=label, color=color,
                                 linewidth=1.5, linestyle='--', alpha=0.6)
-        for tag, label, color in WAVEUNET_VAL_EPOCH:
+        for tag, label, color in VAL_EPOCH:
             steps, values = load(ea, tag)
             if steps:
                 axes[1, 0].plot(steps, values, label=label, color=color, linewidth=1.5)
@@ -119,7 +129,7 @@ def main():
         axes[1, 0].legend(fontsize=8)
         axes[1, 0].grid(True, alpha=0.25)
 
-        plot_panel(axes[1, 1], ea, WAVEUNET_VAL_SISNR, 'Validation SI-SNR (dB)', ylabel='SI-SNR (dB)')
+        plot_panel(axes[1, 1], ea, VAL_SISNR, 'Validation SI-SNR (dB)', ylabel='SI-SNR (dB)')
 
     elif is_mossformergan:
         # ── MossFormerGAN: 3 panels ───────────────────────────────────────
@@ -130,7 +140,7 @@ def main():
         plot_panel(axes_flat[1], ea, MOSSFORMERGAN_TRAIN_EPOCH, 'Avg Train Loss (per epoch)')
         plot_panel(axes_flat[2], ea, MOSSFORMERGAN_VAL_SISNR,   'Validation SI-SNR (dB)', ylabel='SI-SNR (dB)')
     else:
-        print('[!] No WaveUnet or MossFormerGAN tags found.')
+        print('[!] No WaveUnet, DCCRN tags found.')
         return
 
     plt.tight_layout()
