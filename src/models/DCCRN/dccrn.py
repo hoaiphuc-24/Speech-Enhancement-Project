@@ -115,6 +115,33 @@ class DecoderBlock(nn.Module):
 
 
 # ---------------------------------------------------------------------------
+# RealLSTM — 2 LSTMs độc lập (không nhân chia)
+# ---------------------------------------------------------------------------
+class RealLSTM(nn.Module):
+    def __init__(self, in_ch, in_freq, hidden=128, num_layers=2):
+        super().__init__()
+        D = in_ch * in_freq
+
+        self.lstm_r = nn.LSTM(D, hidden, num_layers=num_layers, batch_first=True)
+        self.lstm_i = nn.LSTM(D, hidden, num_layers=num_layers, batch_first=True)
+
+        self.proj_r = nn.Linear(hidden, D)
+        self.proj_i = nn.Linear(hidden, D)
+
+    def forward(self, r, i):
+        B, C, F, T = r.shape
+
+        rv = r.permute(0,3,1,2).reshape(B,T,C*F)
+        iv = i.permute(0,3,1,2).reshape(B,T,C*F)
+
+        out_r, _ = self.lstm_r(rv)
+        out_i, _ = self.lstm_i(iv)
+
+        out_r = self.proj_r(out_r).reshape(B,T,C,F).permute(0,2,3,1)
+        out_i = self.proj_i(out_i).reshape(B,T,C,F).permute(0,2,3,1)
+
+        return out_r, out_i
+# ---------------------------------------------------------------------------
 # ComplexLSTM — 2 LSTMs, gọi riêng 4 lần (tránh hidden state nhiễm)
 #
 # Eq. 2-4:
@@ -169,13 +196,13 @@ class DCCRN(nn.Module):
 
     Parameters
     ----------
-    mode            : 'DCCRN-E' hoặc 'DCCRN-CL'
+    mode            : 'DCCRN-E' or 'DCCRN-CL'
     n_fft           : FFT size (default 512)
     hop_length      : hop size (default 100 → 6.25 ms @ 16 kHz)
     win_length      : window   (default 400 → 25 ms  @ 16 kHz)
     encoder_channels: override channel list
     lstm_hidden     : override LSTM hidden size
-    lstm_layers     : số lớp LSTM (default 2)
+    lstm_layers     : number of LSTM layers (default 2)
     causal          : True → real-time causal
     """
 
@@ -233,12 +260,21 @@ class DCCRN(nn.Module):
         # Cả DCCRN-E và DCCRN-CL đều dùng Tanh (polar mask)
         self.mask_act = nn.Tanh()
 
-    def _build_lstm(self, ch: int, freq: int, device: torch.device):
-        self.lstm = ComplexLSTM(
-            in_ch=ch, in_freq=freq,
-            hidden=self._hid,
-            num_layers=self._layers,
-        ).to(device)
+    def _build_lstm(self, ch, freq, device):
+        if self.mode == 'DCCRN-E':
+            self.lstm = RealLSTM(
+                ch, freq,
+                hidden=self._hid,
+                num_layers=self._layers
+            ).to(device)
+
+        elif self.mode == 'DCCRN-CL':
+            self.lstm = ComplexLSTM(
+                ch, freq,
+                hidden=self._hid,
+                num_layers=self._layers
+            ).to(device)
+
         self._lstm_ready = True
 
     def stft(self, x: Tensor) -> Tuple[Tensor, Tensor]:

@@ -3,7 +3,6 @@ plot_loss.py — Vẽ biểu đồ train/val loss từ TensorBoard event files.
 Usage:
     python plot_loss.py --logdir runs/WaveUnet
     python plot_loss.py --logdir runs/DCCRN
-    python plot_loss.py --logdir runs/MossFormerGAN
     python plot_loss.py --logdir runs/WaveUnet --out waveunet_loss.png
 """
 
@@ -94,7 +93,6 @@ def main():
     print(f'Tags found: {avail}')
 
     is_waveunet     = any('WaveUnet'      in t for t in avail)
-    is_mossformergan = any('MossFormerGAN' in t for t in avail)
     is_dccrn        = any('DCCRN'         in t for t in avail)
 
     if is_waveunet or is_dccrn:
@@ -131,14 +129,6 @@ def main():
 
         plot_panel(axes[1, 1], ea, VAL_SISNR, 'Validation SI-SNR (dB)', ylabel='SI-SNR (dB)')
 
-    elif is_mossformergan:
-        # ── MossFormerGAN: 3 panels ───────────────────────────────────────
-        fig, axes_flat = plt.subplots(1, 3, figsize=(18, 5))
-        fig.suptitle(f'MossFormerGAN — {os.path.basename(args.logdir)}', fontsize=13, fontweight='bold')
-
-        plot_panel(axes_flat[0], ea, MOSSFORMERGAN_TRAIN_STEP,  'Train Loss (per step)')
-        plot_panel(axes_flat[1], ea, MOSSFORMERGAN_TRAIN_EPOCH, 'Avg Train Loss (per epoch)')
-        plot_panel(axes_flat[2], ea, MOSSFORMERGAN_VAL_SISNR,   'Validation SI-SNR (dB)', ylabel='SI-SNR (dB)')
     else:
         print('[!] No WaveUnet, DCCRN tags found.')
         return
