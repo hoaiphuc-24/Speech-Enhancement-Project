@@ -135,11 +135,18 @@ def main():
 
     plt.tight_layout()
 
-    if args.out:
-        plt.savefig(args.out, dpi=150, bbox_inches='tight')
-        print(f'Saved: {args.out}')
+    out_path = args.out
+    if not out_path:
+        default_dir = os.path.join('.', 'chart')
+        os.makedirs(default_dir, exist_ok=True)
+        out_path = os.path.join(default_dir, f'{prefix.lower()}_loss.png')
     else:
-        plt.show()
+        out_dir = os.path.dirname(out_path)
+        if out_dir:
+            os.makedirs(out_dir, exist_ok=True)
+
+    plt.savefig(out_path, dpi=150, bbox_inches='tight')
+    print(f'Saved: {out_path}')
 
 
 if __name__ == '__main__':

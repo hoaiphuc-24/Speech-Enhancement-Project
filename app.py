@@ -78,12 +78,13 @@ def main():
         st.session_state.enhanced_name = f"enhanced_{Path(uploaded_file.name).stem}.wav"
         st.success("Processing complete!")
 
-    st.subheader("Before / After comparison")
     col1, col2 = st.columns(2)
     with col1:
+        st.subheader("Original audio")
         st.caption(f"Original audio: {uploaded_file.name}")
         st.audio(uploaded_file.getvalue(), format="audio/wav")
     with col2:
+        st.subheader("Enhanced audio")
         if st.session_state.enhanced_audio is None:
             st.info("No enhanced audio yet. Click 'Enhance audio' to begin.")
         else:

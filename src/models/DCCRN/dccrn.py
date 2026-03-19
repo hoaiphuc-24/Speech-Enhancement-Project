@@ -115,7 +115,7 @@ class DecoderBlock(nn.Module):
 
 
 # ---------------------------------------------------------------------------
-# RealLSTM — 2 LSTMs độc lập (không nhân chia)
+# RealLSTM — 2 LSTMs 
 # ---------------------------------------------------------------------------
 class RealLSTM(nn.Module):
     def __init__(self, in_ch, in_freq, hidden=128, num_layers=2):

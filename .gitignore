@@ -6,9 +6,11 @@ data/noisy_trainset_28spk_wav/
 .env
 runs/WaveUnet
 runs/MossFormerGAN
+chart/
 
 # __pycache__
 __pycache__/
 *.py[cod]
 *~
 .DS_Store
+.gitignore

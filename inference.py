@@ -117,3 +117,8 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+# python inference.py --model experiments/WaveUnet/best_model_w.pt --input data/noisy_trainset_28spk_wav/p226_007.wav
+
+# python inference.py --model experiments/DCCRN/best_model_cl.pt --input data/noisy_trainset_28spk_wav/p226_007.wav
