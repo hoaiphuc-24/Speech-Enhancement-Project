@@ -1,0 +1,296 @@
+import os
+import math
+import random
+import numpy as np
+import torch
+import torchaudio
+import soundfile as sf
+import librosa
+from torch.utils.data import Dataset, DataLoader
+import torch.utils.data as data
+import torch.distributed as dist
+
+EPS = 1e-8
+MAX_WAV_VALUE = 32768.0
+
+def read_and_config_file(input_path, decode=0):
+    processed_list = []
+
+    if decode:
+        if os.path.isdir(input_path):
+            processed_list = librosa.util.find_files(input_path, ext="wav")
+            if len(processed_list) == 0:
+                processed_list = librosa.util.find_files(input_path, ext="flac")
+        else:
+            if input_path.lower().endswith(".wav") or input_path.lower().endswith(".flac"):
+                processed_list.append(input_path)
+            else:
+                with open(input_path) as fid:
+                    for line in fid:
+                        path_s = line.strip().split()
+                        processed_list.append(path_s[0])
+        return processed_list
+
+    with open(input_path, encoding='utf-8-sig') as fid:
+        for line in fid:
+            tmp_paths = line.strip().split()
+            if len(tmp_paths) == 3:
+                sample = {
+                    'inputs': os.path.normpath(tmp_paths[0]),
+                    'labels': os.path.normpath(tmp_paths[1]),
+                    'duration': float(tmp_paths[2])
+                }
+            elif len(tmp_paths) == 2:
+                sample = {
+                    'inputs': os.path.normpath(tmp_paths[0]),
+                    'labels': os.path.normpath(tmp_paths[1])
+                }
+            else:
+                continue
+            processed_list.append(sample)
+    return processed_list
+
+
+def audio_norm(x):
+    rms = (x ** 2).mean() ** 0.5
+    scalar = 10 ** (-25 / 20) / (rms + EPS)
+    x = x * scalar
+    pow_x = x**2
+    avg_pow_x = pow_x.mean()
+    rmsx = pow_x[pow_x>avg_pow_x].mean()**0.5
+    scalarx = 10 ** (-25 / 20) / (rmsx + EPS)
+    x = x * scalarx
+    return x, 1/(scalar * scalarx + EPS)
+
+
+def audioread(path, sampling_rate):
+    try:
+        data, fs = sf.read(path)
+    except Exception as e:
+        raise RuntimeError(
+            f"soundfile could not read file: '{path}'\n"
+            f"  File exists: {os.path.exists(path)}\n"
+            f"  Original error: {e}"
+        ) from e
+    data, scalar = audio_norm(data)
+    if fs != sampling_rate:
+        data = librosa.resample(data, orig_sr=fs, target_sr=sampling_rate)
+    if len(data.shape) > 1:
+        data = data[:, 0]
+    return data, scalar
+
+
+class DataReader(object):
+    def __init__(self, args):
+        self.file_list = read_and_config_file(args.input_path, decode=True)
+        self.sampling_rate = args.sampling_rate
+        
+    def extract_feature(self, path):
+        #path = path['inputs']
+        utt_id = path.split('/')[-1]
+        data, scalar = audioread(path, self.sampling_rate) #.astype(np.float32)
+        data = data.astype(np.float32)
+        inputs = np.reshape(data, [1, data.shape[0]])
+        return inputs, utt_id, data.shape[0], scalar
+
+    def __len__(self):
+        return len(self.file_list)
+
+    def __getitem__(self, index):
+        return self.extract_feature(self.file_list[index])
+
+
+class Wave_Processor(object):
+    def process(self, path, segment_length, sampling_rate):         
+        wave_inputs, _ = audioread(path['inputs'], sampling_rate)
+        wave_labels, _ = audioread(path['labels'], sampling_rate)
+        len_wav = wave_labels.shape[0]
+        if wave_inputs.shape[0] < segment_length:
+            padded_inputs = np.zeros(segment_length, dtype=np.float32)
+            padded_labels = np.zeros(segment_length, dtype=np.float32)
+            padded_inputs[:wave_inputs.shape[0]] = wave_inputs
+            padded_labels[:wave_labels.shape[0]] = wave_labels
+        else:
+            st_idx = random.randint(0, len_wav - segment_length)
+            padded_inputs = wave_inputs[st_idx:st_idx+segment_length]
+            padded_labels = wave_labels[st_idx:st_idx+segment_length]
+        return padded_inputs, padded_labels
+
+
+class Fbank_Processor(object):
+    def process(self, inputs, args):
+        frame_length = int(args.win_len/args.sampling_rate * 1000)
+        frame_shift = int(args.win_inc/args.sampling_rate * 1000)
+
+        fbank_config = {
+            "dither": 1.0,
+            "frame_length": frame_length,
+            "frame_shift": frame_shift,
+            "num_mel_bins": args.num_mels, 
+            "sample_frequency": args.sampling_rate, 
+            "window_type": args.win_type
+        }
+
+        inputs = torch.FloatTensor(inputs * MAX_WAV_VALUE)
+        fbank = torchaudio.compliance.kaldi.fbank(inputs.unsqueeze(0), **fbank_config)
+        
+        ##add delta and delta-delta
+        fbank_tr = torch.transpose(fbank, 0, 1)
+        fbank_delta = torchaudio.functional.compute_deltas(fbank_tr)
+        fbank_delta_delta = torchaudio.functional.compute_deltas(fbank_delta)
+        fbank_delta = torch.transpose(fbank_delta, 0, 1)
+        fbank_delta_delta = torch.transpose(fbank_delta_delta, 0, 1)
+        fbanks = torch.cat([fbank, fbank_delta, fbank_delta_delta], dim=1)               
+        return fbanks.numpy()
+
+
+class AudioDataset(Dataset):
+    def __init__(self, args, data_type):
+        '''
+            scp_file_name: the list include:[input_wave_path, output_wave_path, duration]
+            spk_emb_scp: a speaker embedding ark's scp 
+            processer: a processer class to handle wave data 
+        '''
+        self.args = args
+        self.sampling_rate = args.sampling_rate
+        if data_type == 'train':
+            self.wav_list = read_and_config_file(args.tr_list)
+        elif data_type == 'val':
+            self.wav_list = read_and_config_file(args.cv_list)
+        elif data_type == 'test':
+            self.wav_list = read_and_config_file(args.tt_list)
+        else:
+            print(f'Data type: {data_type} is unknown!')
+            
+        self.wav_processor = Wave_Processor()
+        self.fbank_processor = Fbank_Processor()
+        self.segment_length = int(self.sampling_rate * self.args.max_length) # to clip data in a fix length segment
+        print(f'No. {data_type} files: {len(self.wav_list)}')
+
+    def __len__(self):
+        return len(self.wav_list)
+
+    def __getitem__(self, index):
+        data_info = self.wav_list[index]
+        inputs, labels = self.wav_processor.process(
+            {'inputs': data_info['inputs'], 'labels': data_info['labels']}, 
+            self.segment_length, 
+            self.sampling_rate
+        )
+        if hasattr(self.args, 'load_fbank') and self.args.load_fbank is not None:
+            fbanks = self.fbank_processor.process(inputs, self.args)
+            return inputs * MAX_WAV_VALUE, labels * MAX_WAV_VALUE, fbanks
+        return inputs, labels 
+
+
+def zero_pad_concat(inputs):
+    max_t = max(inp.shape[0] for inp in inputs)
+    shape = None
+    if len(inputs[0].shape) == 1:
+        shape = (len(inputs), max_t)
+    elif len(inputs[0].shape) == 2:
+        shape = (len(inputs), max_t, inputs[0].shape[1])
+    
+    input_mat = np.zeros(shape, dtype=np.float32)
+    for e, inp in enumerate(inputs):
+        if len(inp.shape) == 1:
+            input_mat[e, :inp.shape[0]] = inp # no padding
+        elif len(inp.shape) == 2:
+            input_mat[e, :inp.shape[0], :] = inp
+    return input_mat
+
+
+def collate_fn_2x_wavs(data):
+    inputs, labels = zip(*data)
+    x = torch.FloatTensor(inputs)
+    y = torch.FloatTensor(labels)
+    return x, y
+
+
+def collate_fn_2x_wavs_fbank(data):
+    inputs, labels, fbanks = zip(*data)
+    #seq_lens = torch.IntTensor([i.shape[0] for i in fbanks])
+    x = torch.FloatTensor(inputs)
+    y = torch.FloatTensor(labels)
+    z = torch.FloatTensor(fbanks)
+    return x, y, z #, seq_lens 
+
+
+class DistributedSampler(data.Sampler):
+    def __init__(self, dataset, num_replicas=None, rank=None, shuffle=True, seed=0):
+        if num_replicas is None:
+            if not dist.is_available():
+                raise RuntimeError("Requires distributed package to be available")
+            num_replicas = dist.get_world_size()
+        if rank is None:
+            if not dist.is_available():
+                raise RuntimeError("Requires distributed package to be available")
+            rank = dist.get_rank()
+        self.dataset = dataset
+        self.num_replicas = num_replicas
+        self.rank = rank
+        self.epoch = 0
+        self.num_samples = int(math.ceil(len(self.dataset) * 1.0 / self.num_replicas))
+        self.total_size = self.num_samples * self.num_replicas
+        self.shuffle = shuffle
+        self.seed = seed
+
+    def __iter__(self):
+        if self.shuffle:
+            # deterministically shuffle based on epoch and seed
+            g = torch.Generator()
+            g.manual_seed(self.seed + self.epoch)
+            ind = torch.randperm(int(len(self.dataset)/self.num_replicas), generator=g) * self.num_replicas
+            indices = []
+            for i in range(self.num_replicas):
+                indices = indices + (ind+i).tolist()
+        else:
+            indices = list(range(len(self.dataset)))
+        
+        # add extra samples to make it evenly divisible
+        indices += indices[:(self.total_size - len(indices))]
+        assert len(indices) == self.total_size
+        
+        # subsample
+        indices = indices[self.rank * self.num_samples:(self.rank + 1) * self.num_samples]
+        assert len(indices) == self.num_samples
+        return iter(indices)
+
+    def __len__(self):
+        return self.num_samples
+
+    def set_epoch(self, epoch):
+        self.epoch = epoch
+
+
+def get_dataloader(args, data_type):
+    datasets = AudioDataset(
+        args=args,
+        data_type=data_type
+    )
+
+    sampler = DistributedSampler(
+        datasets,
+        num_replicas=args.world_size,
+        rank=args.local_rank
+    ) if hasattr(args, 'distributed') and args.distributed else None
+
+    if hasattr(args, 'network'):
+        if args.network in ['DCCRN', 'WaveUnet']:
+            collate_fn = collate_fn_2x_wavs
+        else:
+            print(f'in dataloader, please specify a correct network type using args.network!')
+            return None, None
+    else:
+        # Default fallback
+        collate_fn = collate_fn_2x_wavs
+
+    generator = data.DataLoader(
+        datasets,
+        batch_size=args.batch_size,
+        shuffle=(sampler is None),
+        collate_fn=collate_fn,
+        num_workers=args.num_workers,
+        sampler=sampler
+    )
+    return sampler, generator

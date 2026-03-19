@@ -1,0 +1,25 @@
+# ============================================================
+# Speech Enhancement Project — Requirements
+# ============================================================
+
+# Deep Learning Framework
+torch
+torchaudio
+
+# Audio Processing
+soundfile
+librosa
+
+# Numerical Computing
+numpy
+
+# Config & Logging
+PyYAML
+tensorboard
+
+
+
+
+
+
+

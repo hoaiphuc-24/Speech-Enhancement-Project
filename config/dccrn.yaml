@@ -1,0 +1,47 @@
+# ==========================================
+# DCCRN Configuration
+# ==========================================
+
+# Data Configuration
+data:
+  input_path: "data/clean_trainset_28spk_wav"
+  tr_list: "data/train.scp"
+  cv_list: "data/test.scp"
+  sampling_rate: 16000
+  max_length: 4.0      # Maximum length of audio segments in seconds
+  batch_size: 8
+  num_workers: 4
+
+# Network / Dataloader Identification
+network:
+  name: "DCCRN"
+
+# Model Configuration (DCCRN)
+model:
+  mode: "DCCRN-E" # DCCRN-CL or DCCRN-E
+  in_channels: 1
+  out_channels: 1
+  n_fft: 512
+  hop_length: 100
+  win_length: 400
+  causal: true
+
+# Training Hyperparameters
+training:
+  epochs: 10
+  lr_g: 0.0003          # Model learning rate
+  lr_d: 0.0            # Unused
+  log_dir: "runs/DCCRN"
+  scheduler_eta_min: 0.000001  # CosineAnnealingLR minimum LR
+
+# Loss Weighting
+loss:
+  si_snr_weight: 1.0   # SI-SNR Loss Weight (primary perceptual metric)
+  stft_weight: 0.0     # Multi-Scale STFT Loss Weight
+
+
+# Distributed Training (DDP) Settings
+distributed:
+  use_ddp: false
+  world_size: 1
+  local_rank: 0
